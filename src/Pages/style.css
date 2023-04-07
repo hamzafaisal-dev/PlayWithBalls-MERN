@@ -1,0 +1,26 @@
+body {
+  background-color: #edf0eb !important;
+}
+
+.header-container {
+  text-align: center;
+  padding-top: 90px;
+}
+
+.header-container h1 {
+  font-size: 98px;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.header-container h1 span:first-child {
+  color: #18204a;
+}
+
+/* .header-container h1 span:last-child {
+  color: #ffa500;
+} */
+
+.perfect {
+  color: #ffa500;
+}

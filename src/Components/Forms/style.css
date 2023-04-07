@@ -1,0 +1,13 @@
+.football-logo {
+  width: 50px;
+  height: 50px;
+}
+
+#profilePicture {
+  display: none;
+}
+
+.need-more-info {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 5000;
+}
