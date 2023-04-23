@@ -17,13 +17,17 @@ import {
   Select,
   MenuItem,
   FormControl,
-  Card,
+  Alert,
 } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "../Forms/style.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { MUICard } from "../Cards/index.jsx";
+import "../Forms/style.css";
+import myImage from "./football-vector.png";
+import myImage2 from "./football-vector-2.png";
+import logo from "./logo-black.png";
+import { SuccessSnackBar, ErrorSnackBar } from "../Snackbars";
 
 function Copyright(props) {
   return (
@@ -76,7 +80,7 @@ export const LoginForm = function LogInSide() {
     } catch (error) {
       if (error.response) {
         console.log(error.response.data);
-        // Display the error message to the user or do something with it
+        // Display the error message to the user
       } else if (error.request) {
         console.log(error.request);
       } else {
@@ -92,21 +96,13 @@ export const LoginForm = function LogInSide() {
         <Grid
           item
           xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage:
-              'url("https://img.freepik.com/free-photo/soccer-players-action-professional-stadium_654080-1130.jpg?w=1060&t=st=1680513500~exp=1680514100~hmac=936e953e0870bac53f90c47727bdb4acfeaf4a2c1cf3a4a9093337fdbffa67c8")',
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          sm={8}
+          md={5}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{ boxShadow: "none", backgroundColor: "#edf0eb" }}
+        >
           <Box
             sx={{
               my: 8,
@@ -117,15 +113,9 @@ export const LoginForm = function LogInSide() {
             }}
           >
             <Box>
-              <img
-                className="football-logo"
-                src="https://cdn-icons-png.flaticon.com/512/1099/1099672.png"
-                alt="Logo"
-              />
+              <img className="football-logo" src={logo} alt="Logo" />
             </Box>
-            <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
-              Log in
-            </Typography>
+            <Typography component="h1" variant="h5" sx={{ mt: 2 }}></Typography>
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <TextField
                 margin="normal"
@@ -155,10 +145,21 @@ export const LoginForm = function LogInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                style={{
+                  backgroundColor: "#18204A",
+                  borderRadius: "10px",
+                  padding: "13px 24px",
+                  textTransform: "none",
+                  boxShadow: "none",
+                  fontSize: "17px",
+                  fontWeight: 600,
+                  marginTop: "24px",
+                  marginBottom: "16px",
+                }}
               >
                 Log in
               </Button>
+
               <Grid
                 container
                 justifyContent="space-between"
@@ -183,6 +184,19 @@ export const LoginForm = function LogInSide() {
             </Box>
           </Box>
         </Grid>
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: `url(${myImage})`,
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+            backgroundColor: "#edf0eb",
+          }}
+        />
       </Grid>
     </ThemeProvider>
   );
@@ -209,18 +223,19 @@ export const SignUpForm = function SignInSide() {
           "Content-type": "application/json",
         },
       };
+
       const url = "http://localhost:3001/users/signup";
       const response = await axios.post(url, data, config);
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token", response.data.token);
       navigate("/");
     } catch (error) {
+      console.log(error);
       if (error.response) {
-        console.log(error.response.data);
-        // Display the error message to the user or do something with it
+        alert(error.response.data.message);
       } else if (error.request) {
-        console.log(error.request);
+        alert(error.request.message);
       } else {
-        console.log("Error", error.message);
+        alert("Error", error.message);
       }
     }
   };
@@ -240,19 +255,25 @@ export const SignUpForm = function SignInSide() {
           xs={false}
           sm={4}
           md={7}
+          mb={5}
           sx={{
-            backgroundImage:
-              'url("https://img.freepik.com/free-photo/soccer-players-action-professional-stadium_654080-1130.jpg?w=1060&t=st=1680513500~exp=1680514100~hmac=936e953e0870bac53f90c47727bdb4acfeaf4a2c1cf3a4a9093337fdbffa67c8")',
+            backgroundImage: `url(${myImage2})`,
             backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
+            backgroundSize: "60%",
             backgroundPosition: "center",
           }}
         />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+        <Grid
+          item
+          xs={12}
+          sm={8}
+          md={5}
+          mt={-4}
+          component={Paper}
+          elevation={6}
+          square
+          sx={{ backgroundColor: "#edf0eb", boxShadow: "none" }}
+        >
           <Box
             sx={{
               my: 8,
@@ -263,15 +284,11 @@ export const SignUpForm = function SignInSide() {
             }}
           >
             <Box>
-              <img
-                className="football-logo"
-                src="https://cdn-icons-png.flaticon.com/512/1099/1099672.png"
-                alt="Logo"
-              />
+              <img className="football-logo" src={logo} alt="Logo" />
             </Box>
-            <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
+            {/* <Typography component="h1" variant="h5" sx={{ mt: 2 }}>
               Create Account
-            </Typography>
+            </Typography> */}
             <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6}>
@@ -354,7 +371,17 @@ export const SignUpForm = function SignInSide() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+                style={{
+                  backgroundColor: "#18204A",
+                  borderRadius: "10px",
+                  padding: "13px 24px",
+                  textTransform: "none",
+                  boxShadow: "none",
+                  fontSize: "17px",
+                  fontWeight: 600,
+                  marginTop: "24px",
+                  marginBottom: "16px",
+                }}
               >
                 Register
               </Button>

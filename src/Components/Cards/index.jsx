@@ -1,115 +1,54 @@
-import * as React from "react";
-import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
-import CardActions from "@mui/material/CardActions";
-import CardContent from "@mui/material/CardContent";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
-import { Row, Col } from "react-bootstrap";
+import React, { useState } from "react";
+import { Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Room } from "@mui/icons-material";
 import "./style.css";
 
-export const TestCard = function CardExample() {
-  return (
-    <Card style={{ width: "40rem" }}>
-      <Row>
-        <Col className="charizard">
-          <Card.Img
-            variant="top"
-            src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/006.png"
-          />
-          <Card.Body>
-            <Card.Title className="card-title">Charizard</Card.Title>
-            <Card.Text>Charizard uses flamethrower</Card.Text>
-            <Button
-              variant="primary"
-              href="https://www.pokemon.com/us/pokedex/charizard"
-              target="_blank"
-            >
-              Learn More
-            </Button>
-          </Card.Body>
-        </Col>
-        <Col className="blastoise">
-          <Card.Img
-            variant="top"
-            src="https://assets.pokemon.com/assets/cms2/img/pokedex/full/009.png"
-          />
-          <Card.Body>
-            <Card.Title className="card-title">Blastoise</Card.Title>
-            <Card.Text>Blastoise is thicc</Card.Text>
-            <Button
-              variant="primary"
-              href="https://www.pokemon.com/us/pokedex/blastoise"
-              target="_blank"
-            >
-              Learn More
-            </Button>
-          </Card.Body>
-        </Col>
-      </Row>
-      <style>
-        {`
-          .card-title {
-            color: #333;
-          }
-
-          .card-text {
-            color: #666;
-          }
-        `}
-      </style>
-    </Card>
-  );
+type CityCardProps = {
+  city: string,
+  subtitle: string,
+  imageLink: string,
 };
 
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: "inline-block", mx: "2px", transform: "scale(0.8)" }}
-  >
-    •
-  </Box>
-);
+export const CityCard = ({ city, subtitle, imageLink }: CityCardProps) => {
+  const [hovered, setHovered] = useState(false);
 
-export const BasicCard = function BasicCard() {
   return (
-    <Card sx={{ minWidth: 275 }}>
+    <Card
+      sx={{
+        maxWidth: 345,
+        borderRadius: "12px",
+        border: "1px solid black",
+        cursor: "pointer",
+        boxShadow: hovered ? "0px 3px 8px rgba(0, 0, 0, 0.3)" : "none",
+      }}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      <CardMedia
+        component="img"
+        height="140"
+        image={imageLink}
+        sx={{
+          borderTopLeftRadius: "12px",
+          borderTopRightRadius: "12px",
+          paddingTop: "8px",
+          paddingLeft: "8px",
+          paddingRight: "8px",
+        }}
+      />
       <CardContent>
-        <Typography sx={{ fontSize: 14 }} color="text.secondary" gutterBottom>
-          Word of the Day
+        <Typography gutterBottom variant="h5" component="div">
+          {city}
         </Typography>
-        <Typography variant="h5" component="div">
-          be{bull}nev{bull}o{bull}lent
-        </Typography>
-        <Typography sx={{ mb: 1.5 }} color="text.secondary">
-          adjective
-        </Typography>
-        <Typography variant="body2">
-          well meaning and kindly.
-          <br />
-          {'"a benevolent smile"'}
-        </Typography>
+        <div style={{ display: "flex", alignItems: "center" }}>
+          <Room
+            sx={{ color: "rgba(0,0,0,0.5)", fontSize: "16px", mr: "4px" }}
+          />
+          <Typography variant="subtitle1" color="text.secondary">
+            {subtitle}
+          </Typography>
+        </div>
       </CardContent>
-      <CardActions>
-        <Button size="small">Learn More</Button>
-      </CardActions>
     </Card>
-  );
-};
-
-export const MUICard = () => {
-  return (
-    <Box width="300px">
-      <Card style={{ boxShadow: "0px 3px 8px rgba(0, 0, 0, 0.3)" }}>
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            React
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            I am Hamza and I like to siuuuuuu
-          </Typography>
-        </CardContent>
-      </Card>
-    </Box>
   );
 };

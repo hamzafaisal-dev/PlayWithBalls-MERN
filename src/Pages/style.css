@@ -2,7 +2,8 @@ body {
   background-color: #edf0eb !important;
 }
 
-.header-container {
+.header-container,
+.select-city {
   text-align: center;
   padding-top: 90px;
 }
@@ -12,14 +13,6 @@ body {
   font-weight: bold;
   line-height: 1.2;
 }
-
-.header-container h1 span:first-child {
-  color: #18204a;
-}
-
-/* .header-container h1 span:last-child {
-  color: #ffa500;
-} */
 
 .perfect {
   color: #ffa500;

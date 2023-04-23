@@ -1,15 +1,15 @@
-import React from "react";
+import { React, useState } from "react";
 import {
   AppBar,
   Toolbar,
-  IconButton,
-  Typography,
   Stack,
-  Button,
+  Avatar,
+  Typography,
+  Menu,
+  MenuItem,
 } from "@mui/material";
-import { CatchingPokemon } from "@mui/icons-material";
 import { SignUpButton, SignInButton } from "../Buttons";
-import "../../logo-black.png";
+import logo from "../Forms/logo-black.png";
 
 export const MUINavbar = () => {
   return (
@@ -24,22 +24,130 @@ export const MUINavbar = () => {
       }}
     >
       <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <IconButton size="large" edge="start" color="inherit" aria-label="logo">
-          <CatchingPokemon />
-        </IconButton>
-        <Typography
-          variant="h3"
-          component="div"
-          sx={{ flexGrow: 1, color: "#18204A" }}
-          fontFamily="CamptonBoldDEMO"
-        >
-          PlayPlace
-        </Typography>
+        <img
+          className="football-logo"
+          src={logo}
+          alt="Logo"
+          style={{ marginLeft: "60px" }}
+        />
         <Stack direction="row" spacing={2}>
           <SignInButton></SignInButton>
           <SignUpButton></SignUpButton>
         </Stack>
       </Toolbar>
+    </AppBar>
+  );
+};
+
+export const MUILoggedNavbar = () => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleContactUsClick = () => {
+    window.location.assign("/contact");
+  };
+
+  const handleAboutUsClick = () => {
+    window.location.assign("/about");
+  };
+
+  const handleMyBookingsClick = () => {
+    window.location.assign("/bookings");
+  };
+
+  const handleProfileIconClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogoutClick = () => {
+    localStorage.removeItem("token");
+    window.location.assign("/");
+  };
+
+  return (
+    <AppBar
+      position="static"
+      sx={{
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        paddingTop: "30px",
+        paddingLeft: "30px",
+        paddingRight: "30px",
+      }}
+    >
+      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+        <img
+          className="football-logo"
+          src={logo}
+          alt="Logo"
+          style={{ marginLeft: "60px" }}
+        />
+        <Stack direction="row" spacing={4} alignItems="center">
+          <Typography
+            sx={{
+              color: "black",
+              fontSize: "17px",
+              fontWeight: 600,
+              cursor: "pointer",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+            onClick={handleMyBookingsClick}
+          >
+            My Bookings
+          </Typography>
+          <Typography
+            sx={{
+              color: "black",
+              fontSize: "17px",
+              fontWeight: 600,
+              cursor: "pointer",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+            onClick={handleAboutUsClick}
+          >
+            About Us
+          </Typography>
+          <Typography
+            sx={{
+              color: "black",
+              fontSize: "17px",
+              fontWeight: 600,
+              cursor: "pointer",
+              "&:hover": {
+                textDecoration: "underline",
+              },
+            }}
+            onClick={handleContactUsClick}
+          >
+            Contact Us
+          </Typography>
+          <Avatar
+            sx={{
+              bgcolor: "#FFA500",
+              width: 42,
+              height: 42,
+              cursor: "pointer",
+            }}
+            onClick={handleProfileIconClick}
+          >
+            H
+          </Avatar>
+        </Stack>
+      </Toolbar>
+      <Menu
+        anchorEl={anchorEl}
+        open={Boolean(anchorEl)}
+        onClose={handleMenuClose}
+      >
+        <MenuItem onClick={handleLogoutClick}>Log Out</MenuItem>
+      </Menu>
     </AppBar>
   );
 };

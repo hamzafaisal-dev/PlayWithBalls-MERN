@@ -1,6 +1,5 @@
-// import { Button } from 'react-bootstrap'
-
 import { Button } from "@mui/material";
+import "../Buttons/style.css";
 
 function handleChange() {
   alert("Button Clicked");
@@ -14,13 +13,13 @@ export const TestButton = (props) => {
   );
 };
 
-export const SignUpButton = () => {
+export const SignUpButton = ({ onClick }) => {
   return (
     <Button
       variant="contained"
-      color="primary"
       style={{
         backgroundColor: "#18204A",
+        color: "white",
         borderRadius: "10px",
         padding: "13px 24px",
         width: "150px",
@@ -29,13 +28,15 @@ export const SignUpButton = () => {
         fontSize: "17px",
         fontWeight: 600,
       }}
+      onClick={onClick}
+      href="/signup"
     >
       Sign up
     </Button>
   );
 };
 
-export const SignInButton = () => {
+export const SignInButton = ({ onClick }) => {
   return (
     <Button
       variant="outlined"
@@ -50,18 +51,92 @@ export const SignInButton = () => {
         fontSize: "17px",
         fontWeight: 600,
       }}
+      onClick={onClick}
+      href="/login"
     >
       Sign in
     </Button>
   );
 };
 
-export const MUIButton = () => {
+export const AboutUsButton = ({ onClick }) => {
   return (
-    <div className="MUIButton">
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-    </div>
+    <Button
+      variant="outlined"
+      style={{
+        border: "none",
+        color: "#18204A",
+        borderRadius: "10px",
+        padding: "13px 24px",
+        width: "150px",
+        textTransform: "none",
+        boxShadow: "none",
+        fontSize: "17px",
+        fontWeight: 600,
+      }}
+      onClick={onClick}
+      href="/about"
+    >
+      About Us
+    </Button>
   );
 };
+
+export const ContactUsButton = ({ onClick }) => {
+  return (
+    <Button
+      variant="outlined"
+      style={{
+        border: "none",
+        color: "#18204A",
+        borderRadius: "10px",
+        padding: "13px 24px",
+        width: "150px",
+        textTransform: "none",
+        boxShadow: "none",
+        fontSize: "17px",
+        fontWeight: 600,
+      }}
+      onClick={onClick}
+      href="/contact"
+    >
+      Contact Us
+    </Button>
+  );
+};
+
+export const AddGroundButton = ({ handleAddGroundClick }) => {
+  return (
+    <Button
+      className="add-ground"
+      variant="contained"
+      color="primary"
+      onClick={handleAddGroundClick}
+    >
+      Add Ground
+    </Button>
+  );
+};
+
+export const AddCityButton = ({ handleAddCityClick }) => {
+  return (
+    <Button
+      className="add-city"
+      variant="contained"
+      color="primary"
+      onClick={handleAddCityClick}
+    >
+      Add City
+    </Button>
+  );
+};
+
+// export const MUIButton = () => {
+//   return (
+//     <div className="MUIButton">
+//       <Button variant="text">Text</Button>
+//       <Button variant="contained">Contained</Button>
+//       <Button variant="outlined">Outlined</Button>
+//     </div>
+//   );
+// };

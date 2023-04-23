@@ -1,6 +1,11 @@
+body {
+  background-color: #edf0eb !important;
+}
+
 .football-logo {
   width: 50px;
   height: 50px;
+  transform: scale(6);
 }
 
 #profilePicture {
