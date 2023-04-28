@@ -56,6 +56,7 @@ export default function AdminDashboard() {
   };
 
   const handleAddCityClick = () => {
+    console.log(window.location.href);
     setShowAddCityButton(false);
     setShowCities(false);
     setShowAddCity(true);
@@ -74,6 +75,7 @@ export default function AdminDashboard() {
 
   return (
     <Grid container className="dashboard-container">
+      {/* sidebar */}
       <Grid item xs={3}>
         <Paper
           className="sidebar"

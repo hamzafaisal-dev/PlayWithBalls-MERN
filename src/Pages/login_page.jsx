@@ -2,11 +2,7 @@ import React from "react";
 import "../Pages/style.css";
 import { LoginForm } from "../Components/Forms/index.jsx";
 
-export default function home_page() {
-  function handleChange() {
-    alert("Button Clicked");
-  }
-
+export default function login_page() {
   return (
     <>
       <LoginForm></LoginForm>

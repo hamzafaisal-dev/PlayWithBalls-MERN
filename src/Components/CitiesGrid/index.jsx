@@ -61,7 +61,10 @@ export default function CitiesGrid({ cities }) {
               {cities.map((city) => (
                 <TableRow key={city._id}>
                   <TableCell>
-                    <a href={`/cities/${city._id}/grounds`}>{city.cityName}</a>
+                    <a>
+                      {/* <a href={`admin/cities/${city._id}/grounds`}> */}
+                      {city.cityName}
+                    </a>
                   </TableCell>
                   <TableCell>
                     <IconButton onClick={(event) => handleClick(event, city)}>

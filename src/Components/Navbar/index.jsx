@@ -9,37 +9,38 @@ import {
   MenuItem,
 } from "@mui/material";
 import { SignUpButton, SignInButton } from "../Buttons";
-import logo from "../Forms/logo-black.png";
 
-export const MUINavbar = () => {
-  return (
-    <AppBar
-      position="static"
-      sx={{
-        backgroundColor: "transparent",
-        boxShadow: "none",
-        paddingTop: "30px",
-        paddingLeft: "30px",
-        paddingRight: "30px",
-      }}
-    >
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <img
-          className="football-logo"
-          src={logo}
-          alt="Logo"
-          style={{ marginLeft: "60px" }}
-        />
-        <Stack direction="row" spacing={2}>
-          <SignInButton></SignInButton>
-          <SignUpButton></SignUpButton>
-        </Stack>
-      </Toolbar>
-    </AppBar>
-  );
+export const MUINavbar = ({ logo }) => {
+  if (localStorage.token == null) {
+    return (
+      <AppBar
+        position="static"
+        sx={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          paddingTop: "30px",
+          paddingLeft: "30px",
+          paddingRight: "30px",
+        }}
+      >
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <img
+            className="football-logo"
+            src={logo}
+            alt="Logo"
+            style={{ marginLeft: "60px" }}
+          />
+          <Stack direction="row" spacing={2}>
+            <SignInButton></SignInButton>
+            <SignUpButton></SignUpButton>
+          </Stack>
+        </Toolbar>
+      </AppBar>
+    );
+  }
 };
 
-export const MUILoggedNavbar = () => {
+export const MUILoggedNavbar = ({ logo }) => {
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleContactUsClick = () => {
@@ -67,87 +68,90 @@ export const MUILoggedNavbar = () => {
     window.location.assign("/");
   };
 
-  return (
-    <AppBar
-      position="static"
-      sx={{
-        backgroundColor: "transparent",
-        boxShadow: "none",
-        paddingTop: "30px",
-        paddingLeft: "30px",
-        paddingRight: "30px",
-      }}
-    >
-      <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
-        <img
-          className="football-logo"
-          src={logo}
-          alt="Logo"
-          style={{ marginLeft: "60px" }}
-        />
-        <Stack direction="row" spacing={4} alignItems="center">
-          <Typography
-            sx={{
-              color: "black",
-              fontSize: "17px",
-              fontWeight: 600,
-              cursor: "pointer",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleMyBookingsClick}
-          >
-            My Bookings
-          </Typography>
-          <Typography
-            sx={{
-              color: "black",
-              fontSize: "17px",
-              fontWeight: 600,
-              cursor: "pointer",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleAboutUsClick}
-          >
-            About Us
-          </Typography>
-          <Typography
-            sx={{
-              color: "black",
-              fontSize: "17px",
-              fontWeight: 600,
-              cursor: "pointer",
-              "&:hover": {
-                textDecoration: "underline",
-              },
-            }}
-            onClick={handleContactUsClick}
-          >
-            Contact Us
-          </Typography>
-          <Avatar
-            sx={{
-              bgcolor: "#FFA500",
-              width: 42,
-              height: 42,
-              cursor: "pointer",
-            }}
-            onClick={handleProfileIconClick}
-          >
-            H
-          </Avatar>
-        </Stack>
-      </Toolbar>
-      <Menu
-        anchorEl={anchorEl}
-        open={Boolean(anchorEl)}
-        onClose={handleMenuClose}
+  if (localStorage.token != undefined || localStorage.token != null) {
+    return (
+      <AppBar
+        position="fixed"
+        sx={{
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          paddingTop: "30px",
+          paddingLeft: "30px",
+          paddingRight: "30px",
+          zIndex: 6,
+        }}
       >
-        <MenuItem onClick={handleLogoutClick}>Log Out</MenuItem>
-      </Menu>
-    </AppBar>
-  );
+        <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
+          <img
+            className="football-logo"
+            src={logo}
+            alt="Logo"
+            style={{ marginLeft: "60px" }}
+          />
+          <Stack direction="row" spacing={4} alignItems="center">
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: "17px",
+                fontWeight: 600,
+                cursor: "pointer",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={handleMyBookingsClick}
+            >
+              My Bookings
+            </Typography>
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: "17px",
+                fontWeight: 600,
+                cursor: "pointer",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={handleAboutUsClick}
+            >
+              About Us
+            </Typography>
+            <Typography
+              sx={{
+                color: "black",
+                fontSize: "17px",
+                fontWeight: 600,
+                cursor: "pointer",
+                "&:hover": {
+                  textDecoration: "underline",
+                },
+              }}
+              onClick={handleContactUsClick}
+            >
+              Contact Us
+            </Typography>
+            <Avatar
+              sx={{
+                bgcolor: "#FFA500",
+                width: 42,
+                height: 42,
+                cursor: "pointer",
+              }}
+              onClick={handleProfileIconClick}
+            >
+              H
+            </Avatar>
+          </Stack>
+        </Toolbar>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleMenuClose}
+        >
+          <MenuItem onClick={handleLogoutClick}>Log Out</MenuItem>
+        </Menu>
+      </AppBar>
+    );
+  }
 };

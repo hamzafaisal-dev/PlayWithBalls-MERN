@@ -1,13 +1,29 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
 import { CityCard } from "../Components/Cards";
+import axios from "axios";
 import "../Pages/style.css";
+import { CardActionArea } from "@mui/material";
+import logo from "../Components/Forms/logo-black.png";
 
-export default function home_page() {
+export default function Home_page() {
+  const [citiesData, setCitiesData] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:3001/cities`)
+      .then((response) => {
+        setCitiesData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <>
-      {/* <MUINavbar /> */}
-      <MUILoggedNavbar />
+      {<MUINavbar logo={logo} />}
+      {<MUILoggedNavbar logo={logo} />}
       <div
         style={{
           position: "relative",
@@ -15,7 +31,7 @@ export default function home_page() {
           alignItems: "center",
           justifyContent: "center",
           textAlign: "center",
-          marginTop: "50px",
+          marginTop: "150px",
         }}
       >
         <img
@@ -100,21 +116,20 @@ export default function home_page() {
             margin: "0 auto",
           }}
         >
-          <CityCard
-            city="Karachi"
-            subtitle="City of Lights"
-            imageLink="https://source.unsplash.com/random?karachi"
-          />
-          <CityCard
-            city="Islamabad"
-            subtitle="The Green City"
-            imageLink="https://source.unsplash.com/random?islamabad"
-          />
-          <CityCard
-            city="Lahore"
-            subtitle="City of Gardens"
-            imageLink="https://source.unsplash.com/random?lahore"
-          />
+          {citiesData.map((city) => (
+            <CardActionArea
+              key={city.cityName}
+              onClick={() => {
+                window.location.assign(`/cities/${city._id}/grounds`);
+              }}
+            >
+              <CityCard
+                key={city.cityName}
+                city={city.cityName}
+                imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
+              />
+            </CardActionArea>
+          ))}
         </div>
       </div>
     </>

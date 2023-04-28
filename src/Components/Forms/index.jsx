@@ -22,12 +22,10 @@ import {
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import "../Forms/style.css";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import "../Forms/style.css";
 import myImage from "./football-vector.png";
 import myImage2 from "./football-vector-2.png";
 import logo from "./logo-black.png";
-import { SuccessSnackBar, ErrorSnackBar } from "../Snackbars";
 
 function Copyright(props) {
   return (
@@ -54,8 +52,6 @@ const theme = createTheme({
 });
 
 export const LoginForm = function LogInSide() {
-  const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -68,6 +64,7 @@ export const LoginForm = function LogInSide() {
       const config = {
         headers: {
           "Content-type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
 
@@ -75,11 +72,18 @@ export const LoginForm = function LogInSide() {
       const url = "http://localhost:3001/users/login";
       const response = await axios.post(url, data, config);
 
+      console.log(response.data.user.role);
+
       localStorage.setItem("token", response.data.accessToken);
-      navigate("/");
+
+      if (response.data.user.role === "admin") {
+        window.location.assign("/admin");
+      } else {
+        window.location.assign("/");
+      }
     } catch (error) {
       if (error.response) {
-        console.log(error.response.data);
+        console.log(error.response.data.message);
         // Display the error message to the user
       } else if (error.request) {
         console.log(error.request);
@@ -203,8 +207,6 @@ export const LoginForm = function LogInSide() {
 };
 
 export const SignUpForm = function SignInSide() {
-  const navigate = useNavigate();
-
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -226,8 +228,9 @@ export const SignUpForm = function SignInSide() {
 
       const url = "http://localhost:3001/users/signup";
       const response = await axios.post(url, data, config);
-      localStorage.setItem("token", response.data.token);
-      navigate("/");
+
+      localStorage.setItem("token", response.data.accessToken);
+      window.location.assign("/");
     } catch (error) {
       console.log(error);
       if (error.response) {
