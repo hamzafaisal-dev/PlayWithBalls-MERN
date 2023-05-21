@@ -30,3 +30,22 @@ export const DropdownMenu = function DropdownMenu() {
     </FormControl>
   );
 };
+
+export const SlotsDropdown = ({ slots, onChange }) => {
+  const [time, setTime] = useState("");
+
+  const handleChange = (event) => {
+    setTime(event.target.value);
+    onChange(event.target.value);
+  };
+
+  return (
+    <Select value={time} onChange={handleChange} style={{ minWidth: "120px" }}>
+      {slots.map((slot) => (
+        <MenuItem value={`${slot.startTime}-${slot.endTime}`} key={slot._id}>
+          {`${slot.startTime} - ${slot.endTime}`}
+        </MenuItem>
+      ))}
+    </Select>
+  );
+};

@@ -83,3 +83,15 @@
   font-weight: 500;
   cursor: pointer;
 }
+
+.sidebar-clear-filter-button {
+  background-color: #18204a;
+  color: white;
+  margin-top: 10px;
+  border-color: white;
+  border-radius: 5px;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}

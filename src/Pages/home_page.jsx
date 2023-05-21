@@ -3,7 +3,6 @@ import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
 import { CityCard } from "../Components/Cards";
 import axios from "axios";
 import "../Pages/style.css";
-import { CardActionArea } from "@mui/material";
 import logo from "../Components/Forms/logo-black.png";
 
 export default function Home_page() {
@@ -117,18 +116,25 @@ export default function Home_page() {
           }}
         >
           {citiesData.map((city) => (
-            <CardActionArea
+            <div
               key={city.cityName}
               onClick={() => {
-                window.location.assign(`/cities/${city._id}/grounds`);
+                window.location.assign(`/cities/${city._id}/all-grounds`);
               }}
+              style={{ cursor: "pointer" }}
             >
               <CityCard
                 key={city.cityName}
                 city={city.cityName}
                 imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
+                grounds={city.grounds.length}
               />
-            </CardActionArea>
+            </div>
+            // <CityCard
+            //   key={city.cityName}
+            //   city={city.cityName}
+            //   imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
+            // />
           ))}
         </div>
       </div>

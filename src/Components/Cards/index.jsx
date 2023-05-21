@@ -102,7 +102,7 @@ export const GroundCard = ({
           component="img"
           height="100%"
           width="100%" // set width to 100%
-          objectFit="cover" // make the image cover the container
+          objectfit="cover" // make the image cover the container
           image={imageLink}
           sx={{
             borderTopLeftRadius: "12px",
@@ -160,5 +160,78 @@ export const GroundCard = ({
         </div>
       </CardContent>
     </Card>
+  );
+};
+
+export const SlotSelectCard = ({ status, slot, slots, onClick }) => {
+  const [selectedSlots, setSelectedSlots] = useState([]);
+
+  function addSelectedSlot(index) {
+    setSelectedSlots((prevSelectedSlots) => {
+      // check if the slot is already in the array
+      const isSelected = prevSelectedSlots.some(
+        (slot) => slot._id === slots[index]._id
+      );
+      // if the slot is not selected, add it to the array
+      if (!isSelected) {
+        return [...prevSelectedSlots, slots[index]];
+      }
+      // if the slot is already selected, remove it from the array
+      return prevSelectedSlots.filter((slot) => slot._id !== slots[index]._id);
+    });
+  }
+
+  const getStatusColor = () => {
+    switch (status) {
+      case "available":
+        return "#00ff6a";
+      case "pending":
+        return "yellow";
+      case "unavailable":
+        return "lightcoral";
+      default:
+        return "#00ff6a";
+    }
+  };
+
+  return (
+    <div style={{ marginTop: "20px", padding: "10px" }}>
+      {slots.map((slot, index) => (
+        <div
+          className="slots-div"
+          onClick={() => addSelectedSlot(index)}
+          key={slot._id}
+          style={{
+            backgroundColor: selectedSlots.some(
+              (selected) => selected._id === slot._id
+            )
+              ? "#00ffef"
+              : getStatusColor(),
+          }}
+        >
+          <span>{slot.dayOfWeek}</span>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div
+              style={{
+                width: "2px",
+                height: "20px",
+                backgroundColor: "black",
+                marginRight: "10px",
+              }}
+            ></div>
+            <span>{`${slot.startTime} - ${slot.endTime}`}</span>
+            <div
+              style={{
+                width: "1.8px",
+                height: "20px",
+                backgroundColor: "black",
+                margin: "0px 10px",
+              }}
+            ></div>
+            <span>{`Rs.${slot.rate}`}</span>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 };

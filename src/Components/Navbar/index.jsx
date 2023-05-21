@@ -14,7 +14,7 @@ export const MUINavbar = ({ logo }) => {
   if (localStorage.token == null) {
     return (
       <AppBar
-        position="static"
+        position="fixed"
         sx={{
           backgroundColor: "transparent",
           boxShadow: "none",
@@ -73,11 +73,13 @@ export const MUILoggedNavbar = ({ logo }) => {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "transparent",
+          backgroundColor: "#7fc98f",
+          background: "linear-gradient(to bottom right, #00b09b, #96c93d)",
           boxShadow: "none",
           paddingTop: "30px",
           paddingLeft: "30px",
           paddingRight: "30px",
+          paddingBottom: "20px",
           zIndex: 6,
         }}
       >
@@ -86,12 +88,19 @@ export const MUILoggedNavbar = ({ logo }) => {
             className="football-logo"
             src={logo}
             alt="Logo"
-            style={{ marginLeft: "60px" }}
+            style={{
+              marginLeft: "60px",
+              cursor: "pointer",
+              marginBottom: "12px",
+            }}
+            onClick={() => {
+              window.location.assign("/");
+            }}
           />
           <Stack direction="row" spacing={4} alignItems="center">
             <Typography
               sx={{
-                color: "black",
+                color: "white",
                 fontSize: "17px",
                 fontWeight: 600,
                 cursor: "pointer",
@@ -105,7 +114,7 @@ export const MUILoggedNavbar = ({ logo }) => {
             </Typography>
             <Typography
               sx={{
-                color: "black",
+                color: "white",
                 fontSize: "17px",
                 fontWeight: 600,
                 cursor: "pointer",
@@ -119,7 +128,7 @@ export const MUILoggedNavbar = ({ logo }) => {
             </Typography>
             <Typography
               sx={{
-                color: "black",
+                color: "white",
                 fontSize: "17px",
                 fontWeight: 600,
                 cursor: "pointer",
@@ -137,6 +146,7 @@ export const MUILoggedNavbar = ({ logo }) => {
                 width: 42,
                 height: 42,
                 cursor: "pointer",
+                marginBottom: "10px",
               }}
               onClick={handleProfileIconClick}
             >
