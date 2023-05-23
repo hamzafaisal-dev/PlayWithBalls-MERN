@@ -266,16 +266,30 @@ export const GroundsSidebar = ({ onFilter }) => {
   );
 };
 
-export const SlotsSidebar = () => {
+export const SlotsSidebar = ({ slots, date }) => {
+  const calculateSubtotal = (slots) => {
+    let subTotal = 0;
+
+    for (let slot of slots) {
+      subTotal += slot.rate;
+    }
+
+    return subTotal;
+  };
+
+  const subtotal = calculateSubtotal(slots);
+
   return (
     <div className="selection-sidebar">
       <h2 className="selection-sidebar-heading">Selection details</h2>
       <div className="selection-sidebar-section">
-        <h3 className="selection-sidebar-subtotal">Subtotal: PKR 0.00</h3>
+        <h3 className="selection-sidebar-subtotal">
+          Subtotal: PKR {subtotal.toFixed(2) || "0.00"}
+        </h3>
         {/* <div className="sidebar-divider"></div> */}
         <div className="selection-sidebar-divider"></div>
         <h3 className="selection-sidebar-times-heading">Chosen times</h3>
-        {/* {<SlotsInfo />} */}
+        {<SlotsInfo slots={slots} date={date} />}
         <div className="selection-sidebar-divider"></div>
         <button className="selection-sidebar-add-button">
           Proceed to checkout

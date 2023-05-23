@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
 import logo from "../Components/Forms/logo-black.png";
 import { SlotsSidebar } from "../Components/Sidebars";
-import { SlotSelectCard } from "../Components/Cards";
 import {
   Button,
   Card,
@@ -13,14 +12,12 @@ import {
   Link,
 } from "@mui/material";
 import { Info, Schedule, LocationOn } from "@mui/icons-material";
-import { SlotsDropdown } from "../Components/DropdownMenu";
 import axios from "axios";
 
 const Ground_page = () => {
   const [groundName, setGroundName] = useState("");
   const [groundInfo, setGroundInfo] = useState("");
   const [slots, setSlots] = useState([]);
-  const [selectedTime, setSelectedTime] = useState("");
   const [selectedDate, setSelectedDate] = useState("");
   const [currentDate, setCurrentDate] = useState("");
 
@@ -28,15 +25,15 @@ const Ground_page = () => {
 
   function addSelectedSlot(index) {
     setSelectedSlots((prevSelectedSlots) => {
-      // check if the slot is already in the array
+      // check if the slot is already in the array. some tests if atleast one elem in arr pass test
       const isSelected = prevSelectedSlots.some(
         (slot) => slot._id === slots[index]._id
       );
-      // if the slot is not selected, add it to the array
+      // if slot is not selected, add it to the array
       if (!isSelected) {
         return [...prevSelectedSlots, slots[index]];
       }
-      // if the slot is already selected, remove it from the array
+      // if slot is already selected, remove it from array
       return prevSelectedSlots.filter((slot) => slot._id !== slots[index]._id);
     });
   }
@@ -64,7 +61,7 @@ const Ground_page = () => {
     <>
       {<MUINavbar logo={logo} />}
       {<MUILoggedNavbar logo={logo} />}
-      <SlotsSidebar />
+      <SlotsSidebar slots={selectedSlots} date={selectedDate} />
       {/* ground info div */}
       <div className="grounds-info-div">
         <Card sx={{ width: "100%", borderRadius: "20px" }}>
@@ -116,9 +113,19 @@ const Ground_page = () => {
         <Card sx={{ width: "100%", borderRadius: "20px" }}>
           <CardContent>
             <Typography variant="h5" component="div">
+              Select Date
+            </Typography>
+            <input
+              type="date"
+              id="date"
+              name="date"
+              value={selectedDate}
+              onChange={handleDateChange}
+            />
+            <Typography variant="h5" component="div">
               Select your slots
             </Typography>
-            <div style={{ marginTop: "20px", padding: "10px" }}>
+            <div>
               {slots.map((slot, index) => (
                 <div
                   className="slots-div"
@@ -166,40 +173,7 @@ const Ground_page = () => {
               backgroundPosition: "center",
               height: "400px",
             }}
-          >
-            <Box sx={{ width: "50%" }}>
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{ marginTop: "20px", marginLeft: "10px" }}
-              >
-                Select Date:
-              </Typography>
-              <input
-                style={{ marginTop: "20px", marginLeft: "15px" }}
-                type="date"
-                id="date"
-                name="date"
-                value={selectedDate}
-                onChange={handleDateChange}
-              />
-            </Box>
-            <Box sx={{ width: "50%" }}>
-              <Typography
-                variant="h5"
-                component="div"
-                sx={{ marginTop: "20px" }}
-              >
-                Select Time:
-              </Typography>
-              <SlotsDropdown
-                slots={slots}
-                onChange={(selectedValue) => {
-                  setSelectedTime(selectedValue);
-                }}
-              />
-            </Box>
-          </Box>
+          ></Box>
           {/* get date and time button */}
           <Button
             variant="contained"

@@ -11,6 +11,7 @@ import ProfilePage from './Pages/profile_page.jsx'
 import AdminPage from './Pages/admin_page.jsx'
 import AllGroundsPage from './Pages/all_ground_page';
 import GroundPage from './Pages/ground_page';
+import PaymentsPage from './Pages/payment_page';
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
         <Route path="cities/:cityId/all-grounds" exact element={< AllGroundsPage />} />
         <Route path="cities/:cityId/all-grounds/:groundId" exact element={< GroundPage />} />
         <Route path="/bookings" exact element={< BookingsPage />} />
+        <Route path="/payment" exact element={< PaymentsPage />} />
         <Route path="/about" exact element={< AboutPage />} />
         <Route path="/contact" exact element={< ContactPage />} />
         <Route path="/default" exact element={< DefaultPage />} />
