@@ -3,6 +3,7 @@ import "./style.css";
 import "./slots-sidebar.css";
 import { FilterList } from "@mui/icons-material";
 import { SlotsInfo } from "../Slots";
+import { useNavigate } from "react-router-dom";
 
 export const GroundsSidebar = ({ onFilter }) => {
   const [area, setArea] = useState(undefined);
@@ -266,7 +267,9 @@ export const GroundsSidebar = ({ onFilter }) => {
   );
 };
 
-export const SlotsSidebar = ({ slots, date }) => {
+export const SlotsSidebar = ({ slots, date, groundName }) => {
+  const navigate = useNavigate();
+
   const calculateSubtotal = (slots) => {
     let subTotal = 0;
 
@@ -278,6 +281,17 @@ export const SlotsSidebar = ({ slots, date }) => {
   };
 
   const subtotal = calculateSubtotal(slots);
+
+  const handleBookingClick = (slots, date, groundName, subtotal) => {
+    navigate("/booking", {
+      state: {
+        slots: slots,
+        date: date,
+        groundName: groundName,
+        subtotal: subtotal,
+      },
+    });
+  };
 
   return (
     <div className="selection-sidebar">
@@ -291,7 +305,10 @@ export const SlotsSidebar = ({ slots, date }) => {
         <h3 className="selection-sidebar-times-heading">Chosen times</h3>
         {<SlotsInfo slots={slots} date={date} />}
         <div className="selection-sidebar-divider"></div>
-        <button className="selection-sidebar-add-button">
+        <button
+          className="selection-sidebar-add-button"
+          onClick={() => handleBookingClick(slots, date, groundName, subtotal)}
+        >
           Proceed to checkout
         </button>
       </div>

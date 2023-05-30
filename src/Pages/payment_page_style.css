@@ -1,0 +1,73 @@
+@import url("https://fonts.googleapis.com/css2?family=Teko:wght@700&display=swap");
+
+.subtotal-text {
+  margin-bottom: 1.5rem;
+  text-align: left;
+  background: black;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 700;
+  font-family: "Teko", sans-serif;
+}
+
+.container {
+  display: flex;
+  margin-left: 20px !important;
+}
+
+.payment-div {
+  /* background: linear-gradient(to right, limegreen, yellow); */
+  margin-top: 150px;
+  margin-left: 180px !important;
+  padding: 2rem;
+  width: 600px !important;
+  height: 510px;
+  font-family: "Arial", sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slots-summary-div {
+  margin-top: 150px;
+  margin-left: 90px !important;
+  padding: 2rem;
+  width: 500px !important;
+  font-family: "Arial", sans-serif;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.slots-container {
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.35);
+  margin-top: 20px;
+  padding: 15px;
+  border-radius: 10px;
+}
+
+.left-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.right-side {
+  margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.line {
+  margin-bottom: 5px;
+  font-family: "Arial", sans-serif;
+}
+
+.slot-rate {
+  font-size: 20px;
+  font-weight: 900px;
+}
+
+.line:first-child {
+  display: inline-block;
+  vertical-align: middle;
+}

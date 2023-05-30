@@ -6,6 +6,7 @@ import SignupPage from './Pages/signup_page.jsx'
 import LoginPage from './Pages/login_page.jsx'
 import DefaultPage from './Pages/default_page.jsx'
 import ContactPage from './Pages/contact_page.jsx'
+import BookingPage from './Pages/booking_page';
 import BookingsPage from './Pages/bookings_page.jsx'
 import ProfilePage from './Pages/profile_page.jsx'
 import AdminPage from './Pages/admin_page.jsx'
@@ -24,6 +25,7 @@ function App() {
         <Route path="/profile" exact element={< ProfilePage />} />
         <Route path="cities/:cityId/all-grounds" exact element={< AllGroundsPage />} />
         <Route path="cities/:cityId/all-grounds/:groundId" exact element={< GroundPage />} />
+        <Route path="/booking" exact element={< BookingPage />} />
         <Route path="/bookings" exact element={< BookingsPage />} />
         <Route path="/payment" exact element={< PaymentsPage />} />
         <Route path="/about" exact element={< AboutPage />} />

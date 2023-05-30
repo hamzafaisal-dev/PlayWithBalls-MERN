@@ -1,6 +1,9 @@
 body {
   background-color: #edf0eb !important;
-  /* padding-top: 64px; */
+  /* background-image: url("football icon.png");
+  background-size: 15px;
+  background-repeat: repeat;
+  background-position: center center; */
 }
 
 .header-container,
@@ -17,45 +20,4 @@ body {
 
 .perfect {
   color: #ffa500;
-}
-
-.slots-select-card {
-  margin-top: 30px;
-  background-color: red;
-  width: 1050px;
-  margin-left: 35px;
-  height: 100%;
-  border-radius: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-.grounds-info-div {
-  margin-top: 145px;
-  background-color: red;
-  width: 1050px;
-  margin-left: 35px;
-  border-radius: 20px;
-}
-
-.slots-div {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  /* background: #00ff6a; */
-  padding: 10px;
-  margin-top: 15px;
-  margin-left: 10px;
-  margin-bottom: 15px;
-  border-radius: 12px;
-  width: 355px;
-  cursor: pointer;
-  transition: box-shadow 0.3s ease-in-out, background 0.3s ease-in-out;
-  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
-  font-weight: 600;
-  border: 1px solid black;
-}
-
-.slots-div:hover {
-  box-shadow: 0px 5px 8px rgba(0, 0, 0, 0.15);
 }

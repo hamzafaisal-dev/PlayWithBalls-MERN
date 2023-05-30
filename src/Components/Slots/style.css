@@ -1,0 +1,28 @@
+.slot-div {
+  display: flex;
+  align-items: center;
+  color: white;
+  border-color: black;
+  background-color: #2ecc71;
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 15px;
+}
+
+.slot-inner-div {
+  background-color: white;
+  border-radius: 20px;
+  margin-left: 5px;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+}
+
+.slot-divider {
+  background-color: black;
+  height: 15px;
+  width: 1px;
+  margin-left: 5px;
+  margin-right: 5px;
+}

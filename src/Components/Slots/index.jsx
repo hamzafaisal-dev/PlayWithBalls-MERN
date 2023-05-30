@@ -1,4 +1,5 @@
 import React from "react";
+import "./style.css";
 
 export const SlotsInfo = ({ slots, date }) => {
   if (!slots) {
@@ -8,44 +9,15 @@ export const SlotsInfo = ({ slots, date }) => {
   return (
     <>
       {slots.map((slot) => (
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            color: "white",
-            borderColor: "black",
-            backgroundColor: "#2ecc71",
-            width: "100%",
-            padding: "12px",
-            borderRadius: "8px",
-            marginBottom: "15px",
-          }}
-        >
+        <div className="slot-div" key={slot._id}>
           <span
             style={{ marginRight: "5px" }}
           >{`${slot.dayOfWeek}, ${date}`}</span>
-          <div
-            style={{
-              backgroundColor: "white",
-              borderRadius: "20px",
-              marginLeft: "5px",
-              padding: "8px",
-              display: "flex",
-              alignItems: "center",
-            }}
-          >
+          <div className="slot-inner-div">
             <span
               style={{ color: "black", fontWeight: "400" }}
             >{`${slot.startTime}`}</span>
-            <div
-              style={{
-                backgroundColor: "black",
-                height: "15px",
-                width: "1px",
-                marginLeft: "5px",
-                marginRight: "5px",
-              }}
-            ></div>
+            <div className="slot-divider"></div>
             <span
               style={{ color: "black", fontWeight: "400" }}
             >{`${slot.endTime}`}</span>

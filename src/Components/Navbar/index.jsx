@@ -68,6 +68,10 @@ export const MUILoggedNavbar = ({ logo }) => {
     window.location.assign("/");
   };
 
+  const handleProfileClick = () => {
+    window.location.assign("/profile");
+  };
+
   if (localStorage.token != undefined || localStorage.token != null) {
     return (
       <AppBar
@@ -149,9 +153,7 @@ export const MUILoggedNavbar = ({ logo }) => {
                 marginBottom: "10px",
               }}
               onClick={handleProfileIconClick}
-            >
-              H
-            </Avatar>
+            ></Avatar>
           </Stack>
         </Toolbar>
         <Menu
@@ -159,6 +161,7 @@ export const MUILoggedNavbar = ({ logo }) => {
           open={Boolean(anchorEl)}
           onClose={handleMenuClose}
         >
+          <MenuItem onClick={handleProfileClick}>My Profile</MenuItem>
           <MenuItem onClick={handleLogoutClick}>Log Out</MenuItem>
         </Menu>
       </AppBar>

@@ -3,7 +3,6 @@ import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
 import logo from "../Components/Forms/logo-black.png";
 import { SlotsSidebar } from "../Components/Sidebars";
 import {
-  Button,
   Card,
   CardMedia,
   CardContent,
@@ -13,13 +12,13 @@ import {
 } from "@mui/material";
 import { Info, Schedule, LocationOn } from "@mui/icons-material";
 import axios from "axios";
+import "../Pages/ground_page_style.css";
 
 const Ground_page = () => {
   const [groundName, setGroundName] = useState("");
   const [groundInfo, setGroundInfo] = useState("");
   const [slots, setSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
-  const [currentDate, setCurrentDate] = useState("");
 
   const [selectedSlots, setSelectedSlots] = useState([]);
 
@@ -61,7 +60,11 @@ const Ground_page = () => {
     <>
       {<MUINavbar logo={logo} />}
       {<MUILoggedNavbar logo={logo} />}
-      <SlotsSidebar slots={selectedSlots} date={selectedDate} />
+      <SlotsSidebar
+        slots={selectedSlots}
+        date={selectedDate}
+        groundName={groundName}
+      />
       {/* ground info div */}
       <div className="grounds-info-div">
         <Card sx={{ width: "100%", borderRadius: "20px" }}>
@@ -141,23 +144,8 @@ const Ground_page = () => {
                 >
                   <span>{slot.dayOfWeek}</span>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <div
-                      style={{
-                        width: "2px",
-                        height: "20px",
-                        backgroundColor: "black",
-                        marginRight: "10px",
-                      }}
-                    ></div>
                     <span>{`${slot.startTime} - ${slot.endTime}`}</span>
-                    <div
-                      style={{
-                        width: "1.8px",
-                        height: "20px",
-                        backgroundColor: "black",
-                        margin: "0px 10px",
-                      }}
-                    ></div>
+                    <div className="divider"></div>
                     <span>{`Rs.${slot.rate}`}</span>
                   </div>
                 </div>
@@ -165,30 +153,7 @@ const Ground_page = () => {
             </div>
           </CardContent>
           {/* select date and time */}
-          <Box
-            sx={{
-              // display: "flex",
-              backgroundImage: "url('')",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              height: "400px",
-            }}
-          ></Box>
-          {/* get date and time button */}
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              const today = new Date().toLocaleDateString();
-              setCurrentDate(today);
-
-              console.log(currentDate);
-              console.log(selectedSlots);
-            }}
-            sx={{ marginTop: "20px" }}
-          >
-            Get Date and Time
-          </Button>
+          <Box className="slot-select-box"></Box>
         </Card>
       </div>
     </>
