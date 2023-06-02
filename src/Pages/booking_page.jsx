@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Typography, Divider, Button } from "@mui/material";
 import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
 import logo from "../Components/Forms/logo-black.png";
 import { useLocation, useNavigate } from "react-router-dom";
-import { green } from "@mui/material/colors";
+import axios from "axios";
 
 const BookingPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { slots, date, groundName, subtotal } = location.state;
+  const { slots, date, groundName, subtotal, cityID, groundID } =
+    location.state;
 
-  const handleCheckoutClick = (slots, date, groundName, subtotal) => {
+  const handleCheckoutClick = async (
+    slots,
+    date,
+    groundName,
+    subtotal,
+    cityID,
+    groundID
+  ) => {
     navigate("/payment", {
       state: {
         slots: slots,
         date: date,
         groundName: groundName,
         subtotal: subtotal,
+        groundID: groundID,
       },
     });
   };
@@ -53,9 +62,18 @@ const BookingPage = () => {
             height: "60px",
             fontSize: "0.8rem",
           }}
-          onClick={() => handleCheckoutClick(slots, date, groundName, subtotal)}
+          onClick={() =>
+            handleCheckoutClick(
+              slots,
+              date,
+              groundName,
+              subtotal,
+              cityID,
+              groundID
+            )
+          }
         >
-          Checkout
+          Proceed to Checkout
         </Button>
         <Typography
           variant="h6"

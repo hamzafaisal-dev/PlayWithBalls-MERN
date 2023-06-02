@@ -95,49 +95,52 @@ export default function Home_page() {
       <h2 className="select-city" style={{ marginBottom: "50px" }}>
         Select your city
       </h2>
-      <div
-        className="container"
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "50px",
-        }}
-      >
+      <section id="cities-section">
+        {" "}
         <div
-          className="city-cards-container"
+          className="container"
           style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
-            gap: "20px",
+            display: "flex",
             justifyContent: "center",
-            width: "100%",
-            maxWidth: "1200px",
-            margin: "0 auto",
+            marginBottom: "50px",
           }}
         >
-          {citiesData.map((city) => (
-            <div
-              key={city.cityName}
-              onClick={() => {
-                window.location.assign(`/cities/${city._id}/all-grounds`);
-              }}
-              style={{ cursor: "pointer" }}
-            >
-              <CityCard
+          <div
+            className="city-cards-container"
+            style={{
+              display: "grid",
+              gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
+              gap: "20px",
+              justifyContent: "center",
+              width: "100%",
+              maxWidth: "1200px",
+              margin: "0 auto",
+            }}
+          >
+            {citiesData.map((city) => (
+              <div
                 key={city.cityName}
-                city={city.cityName}
-                imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
-                grounds={city.grounds.length}
-              />
-            </div>
-            // <CityCard
-            //   key={city.cityName}
-            //   city={city.cityName}
-            //   imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
-            // />
-          ))}
+                onClick={() => {
+                  window.location.assign(`/cities/${city._id}/all-grounds`);
+                }}
+                style={{ cursor: "pointer" }}
+              >
+                <CityCard
+                  key={city.cityName}
+                  city={city.cityName}
+                  imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
+                  grounds={city.grounds.length}
+                />
+              </div>
+              // <CityCard
+              //   key={city.cityName}
+              //   city={city.cityName}
+              //   imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
+              // />
+            ))}
+          </div>
         </div>
-      </div>
+      </section>
     </>
   );
 }

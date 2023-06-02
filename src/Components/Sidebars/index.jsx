@@ -269,6 +269,8 @@ export const GroundsSidebar = ({ onFilter }) => {
 
 export const SlotsSidebar = ({ slots, date, groundName }) => {
   const navigate = useNavigate();
+  const cityID = window.location.pathname.substring(8, 32); // removes the leading slash
+  const groundID = window.location.pathname.substring(45, 69);
 
   const calculateSubtotal = (slots) => {
     let subTotal = 0;
@@ -282,13 +284,22 @@ export const SlotsSidebar = ({ slots, date, groundName }) => {
 
   const subtotal = calculateSubtotal(slots);
 
-  const handleBookingClick = (slots, date, groundName, subtotal) => {
+  const handleBookingClick = (
+    slots,
+    date,
+    groundName,
+    subtotal,
+    cityID,
+    groundID
+  ) => {
     navigate("/booking", {
       state: {
         slots: slots,
         date: date,
         groundName: groundName,
         subtotal: subtotal,
+        cityID: cityID,
+        groundID: groundID,
       },
     });
   };
@@ -307,7 +318,16 @@ export const SlotsSidebar = ({ slots, date, groundName }) => {
         <div className="selection-sidebar-divider"></div>
         <button
           className="selection-sidebar-add-button"
-          onClick={() => handleBookingClick(slots, date, groundName, subtotal)}
+          onClick={() =>
+            handleBookingClick(
+              slots,
+              date,
+              groundName,
+              subtotal,
+              cityID,
+              groundID
+            )
+          }
         >
           Proceed to checkout
         </button>

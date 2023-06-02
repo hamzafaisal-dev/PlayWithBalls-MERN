@@ -53,6 +53,10 @@ const Ground_page = () => {
       })
       .catch((error) => {
         console.log(error);
+
+        if (error.message == "Request failed with status code 404") {
+          window.location.assign("/404");
+        }
       });
   }, []);
 
