@@ -1,118 +1,138 @@
-import React, { useState } from "react";
-import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
+import React, { useContext, useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  CardHeader,
+  IconButton,
+  Avatar,
+} from "@mui/material";
+import { Edit as EditIcon } from "@mui/icons-material";
+
 import logo from "../Components/Forms/logo-black.png";
+import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
+import { AppContext } from "../App";
+import axios from "axios";
 
 export default function ProfilePage() {
-  const [name, setName] = useState("John Doe");
-  const [bio, setBio] = useState(
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
-  );
-  const [age, setAge] = useState(25);
-  const [position, setPosition] = useState("Software Engineer");
-  const [email, setEmail] = useState("johndoe@example.com");
-  const [gender, setGender] = useState("Male");
+  // const { userName } = useContext(AppContext);
 
-  const handleEditName = () => {
-    const newName = prompt("Enter new name");
-    if (newName) {
-      setName(newName);
-    }
-  };
+  const [userData, setUserData] = useState(null);
 
-  const handleEditBio = () => {
-    const newBio = prompt("Enter new bio");
-    if (newBio) {
-      setBio(newBio);
-    }
-  };
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
 
-  const handleEditAge = () => {
-    const newAge = prompt("Enter new age");
-    if (newAge) {
-      setAge(parseInt(newAge));
-    }
-  };
+    axios
+      .get(`http://localhost:3001/user`, config)
+      .then((response) => {
+        console.log(response.data.user);
+        setUserData(response.data.user);
+      })
+      .catch((error) => {
+        if (error.response) {
+          alert(error.response.data.message);
+        } else if (error.request) {
+          alert(error.request.data.message);
+        } else {
+          alert("Errorrf", error.message);
+        }
+      });
+  }, []);
 
-  const handleEditPosition = () => {
-    const newPosition = prompt("Enter new position");
-    if (newPosition) {
-      setPosition(newPosition);
-    }
-  };
-
-  const handleEditEmail = () => {
-    const newEmail = prompt("Enter new email");
-    if (newEmail) {
-      setEmail(newEmail);
-    }
-  };
-
-  const handleEditGender = () => {
-    const newGender = prompt("Enter new gender");
-    if (newGender) {
-      setGender(newGender);
-    }
+  const handleEditIconClick = () => {
+    console.log(userData);
   };
 
   return (
     <>
       <MUINavbar logo={logo} />
       <MUILoggedNavbar logo={logo} />
-      <div
+
+      <Card
         style={{
-          display: "flex",
-          alignItems: "center",
-          flexDirection: "column",
-          paddingTop: "200px",
+          maxWidth: 500,
+          margin: "auto",
+          marginTop: "180px",
+          borderRadius: "20px",
         }}
       >
-        <img
-          src="/path/to/profile-image.jpg"
-          alt="Profile Image"
-          style={{ width: "150px", borderRadius: "50%", marginBottom: "20px" }}
+        <CardHeader
+          style={{
+            backgroundColor: "#24DC89",
+            color: "#fff",
+          }}
+          title="My Profile"
+          action={
+            <IconButton
+              style={{
+                position: "absolute",
+                top: "192px",
+                right: "530px",
+              }}
+              onClick={handleEditIconClick}
+            >
+              <EditIcon />
+            </IconButton>
+          }
         />
-        <h1 style={{ fontSize: "24px", fontWeight: "bold" }}>{name}</h1>
-        <div style={{ marginBottom: "20px" }}>
-          <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>Bio:</h3>
-          <p style={{ fontSize: "14px" }}>{bio}</p>
-        </div>
-        <div style={{ marginBottom: "20px" }}>
-          <h3 style={{ fontSize: "16px", fontWeight: "bold" }}>Stats:</h3>
-          <ul style={{ listStyleType: "none", paddingLeft: "0" }}>
-            <li>
-              <span style={{ fontWeight: "bold" }}>Age: </span>
-              <span>{age}</span>
-              <button onClick={handleEditAge} style={{ marginLeft: "10px" }}>
-                <i className="fas fa-edit"></i>
-              </button>
-            </li>
-            <li>
-              <span style={{ fontWeight: "bold" }}>Position: </span>
-              <span>{position}</span>
-              <button
-                onClick={handleEditPosition}
-                style={{ marginLeft: "10px" }}
-              >
-                <i className="fas fa-edit"></i>
-              </button>
-            </li>
-            <li>
-              <span style={{ fontWeight: "bold" }}>Email: </span>
-              <span>{email}</span>
-              <button onClick={handleEditEmail} style={{ marginLeft: "10px" }}>
-                <i className="fas fa-edit"></i>
-              </button>
-            </li>
-            <li>
-              <span style={{ fontWeight: "bold" }}>Gender: </span>
-              <span>{gender}</span>
-              <button onClick={handleEditGender} style={{ marginLeft: "10px" }}>
-                <i className="fas fa-edit"></i>
-              </button>
-            </li>
-          </ul>
-        </div>
-      </div>
+
+        <CardContent>
+          {/* user picture */}
+          <Avatar
+            sx={{
+              width: "80px",
+              height: "80px",
+              backgroundColor: "#ccc",
+              marginBottom: "10px",
+            }}
+            // src="https://yt3.googleusercontent.com/C1x5KJWWQW_JoHQCEEaqpXU6hkII-6kWRTUk8Urg25tE-ZLrKK11WWlKBhfGwt-ZzseGsvYwcXU=s900-c-k-c0x00ffffff-no-rj"
+          ></Avatar>
+
+          {/* <div
+            style={{
+              width: 100,
+              height: 100,
+              backgroundColor: "#ccc",
+              marginBottom: "10px",
+            }}
+          /> */}
+
+          {/* user name */}
+          <Typography variant="h6" gutterBottom>
+            {userData.firstName + " " + userData.lastName}
+          </Typography>
+
+          {/* user email */}
+          <Typography variant="body2" color="textSecondary" gutterBottom>
+            {userData.email}
+          </Typography>
+
+          {/* user bio */}
+          <Typography variant="body1" gutterBottom>
+            {userData.bio || "No bio available"}
+          </Typography>
+
+          {/* user position */}
+          <Typography variant="body2" gutterBottom>
+            Position: {userData.position || "No position selected"}
+          </Typography>
+
+          {/* user age */}
+          <Typography variant="body2" gutterBottom>
+            Age: {userData.age || "No age available"}
+          </Typography>
+
+          {/* user gender */}
+          <Typography variant="body2" gutterBottom>
+            Gender: {userData.gender || "No gender available"}
+          </Typography>
+        </CardContent>
+      </Card>
     </>
   );
 }

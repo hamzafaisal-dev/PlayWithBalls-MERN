@@ -269,7 +269,7 @@ export const GroundsSidebar = ({ onFilter }) => {
 
 export const SlotsSidebar = ({ slots, date, groundName }) => {
   const navigate = useNavigate();
-  const cityID = window.location.pathname.substring(8, 32); // removes the leading slash
+  const cityID = window.location.pathname.substring(8, 32);
   const groundID = window.location.pathname.substring(45, 69);
 
   const calculateSubtotal = (slots) => {
@@ -318,6 +318,7 @@ export const SlotsSidebar = ({ slots, date, groundName }) => {
         <div className="selection-sidebar-divider"></div>
         <button
           className="selection-sidebar-add-button"
+          disabled={date == undefined || slots.length == 0}
           onClick={() =>
             handleBookingClick(
               slots,
@@ -329,7 +330,7 @@ export const SlotsSidebar = ({ slots, date, groundName }) => {
             )
           }
         >
-          Proceed to checkout
+          Add to basket
         </button>
       </div>
     </div>

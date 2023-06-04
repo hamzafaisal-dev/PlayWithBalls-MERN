@@ -32,18 +32,34 @@ const PaymentsPage = () => {
   const [showPaymentSuccess, setShowPaymentSuccess] = useState(false);
   const [showPaymentInProgress, setShowPaymentInProgress] = useState(true);
 
+  const [paymentStatus, setPaymentStatus] = useState("pending");
+
   const location = useLocation();
 
-  const { cityID, groundID } = location.state;
+  let cityID,
+    groundID = "";
+
+  if (location.state != null) {
+    cityID = location.state.cityID;
+    groundID = location.state.groundID;
+  }
 
   useEffect(() => {
-    console.log(location.state);
+    if (location.state != null) {
+      console.log(location.state);
 
-    setSlots(location.state.slots);
-    setDate(location.state.date);
-    setSubtotal(location.state.subtotal);
-    setGroundName(location.state.groundName);
+      setSlots(location.state.slots);
+      setDate(location.state.date);
+      setSubtotal(location.state.subtotal);
+      setGroundName(location.state.groundName);
+    }
   }, []);
+
+  useEffect(() => {
+    if (paymentStatus === "success") {
+      setSlots([]);
+    }
+  }, [paymentStatus]);
 
   const handleCardNumberChange = (event) => {
     setCardNumber(event.target.value);
@@ -111,7 +127,7 @@ const PaymentsPage = () => {
       const config = {
         headers: {
           "Content-type": "application/json",
-          // Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       };
 
@@ -144,7 +160,7 @@ const PaymentsPage = () => {
     setCVV("");
   };
 
-  if (slots.length == 0) {
+  if (location.state == null || slots.length == 0) {
     console.log(slots);
     return (
       // payment default page

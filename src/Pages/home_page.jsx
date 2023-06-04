@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
 import { CityCard } from "../Components/Cards";
 import axios from "axios";
@@ -7,8 +7,10 @@ import logo from "../Components/Forms/logo-black.png";
 
 export default function Home_page() {
   const [citiesData, setCitiesData] = useState([]);
+  // const { userRole } = useContext(UserContext);
 
   useEffect(() => {
+    // console.log(userRole);
     axios
       .get(`http://localhost:3001/cities`)
       .then((response) => {

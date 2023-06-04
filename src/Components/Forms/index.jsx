@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import {
   Avatar,
   Button,
@@ -26,6 +26,7 @@ import "../Forms/style.css";
 import myImage from "./football-vector.png";
 import myImage2 from "./football-vector-2.png";
 import logo from "./logo-black.png";
+import { AppContext } from "../../App.js";
 
 function Copyright(props) {
   return (
@@ -52,6 +53,8 @@ const theme = createTheme({
 });
 
 export const LoginForm = function LogInSide() {
+  // const { setUserName } = useContext(AppContext);
+
   const handleSubmit = async (event) => {
     try {
       event.preventDefault();
@@ -68,27 +71,29 @@ export const LoginForm = function LogInSide() {
         },
       };
 
-      console.log(data);
       const url = "http://localhost:3001/users/login";
       const response = await axios.post(url, data, config);
 
-      console.log(response.data.user.role);
+      // setUserName(response.data.userFirstName);
+      console.log(response.data.userRole);
 
       localStorage.setItem("token", response.data.accessToken);
 
-      if (response.data.user.role === "admin") {
+      if (response.data.userRole === "admin") {
         window.location.assign("/admin");
       } else {
         window.location.assign("/");
       }
     } catch (error) {
       if (error.response) {
-        console.log(error.response.data.message);
-        // Display the error message to the user
+        console.log(error.response);
+        alert(error.response.data.message);
       } else if (error.request) {
         console.log(error.request);
+        alert(error.request);
       } else {
-        console.log("Error", error.message);
+        console.log(error.message);
+        alert("Error", error.message);
       }
     }
   };

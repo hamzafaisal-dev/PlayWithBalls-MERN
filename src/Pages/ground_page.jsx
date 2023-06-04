@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { MUINavbar, MUILoggedNavbar } from "../Components/Navbar";
 import logo from "../Components/Forms/logo-black.png";
 import { SlotsSidebar } from "../Components/Sidebars";
@@ -9,12 +9,14 @@ import {
   Typography,
   Box,
   Link,
+  StaticDatePicker,
 } from "@mui/material";
 import { Info, Schedule, LocationOn } from "@mui/icons-material";
 import axios from "axios";
 import "../Pages/ground_page_style.css";
+import { AppContext } from "../App";
 
-const Ground_page = () => {
+const GroundPage = () => {
   const [groundName, setGroundName] = useState("");
   const [groundInfo, setGroundInfo] = useState("");
   const [slots, setSlots] = useState([]);
@@ -22,27 +24,40 @@ const Ground_page = () => {
 
   const [selectedSlots, setSelectedSlots] = useState([]);
 
+  // const { setUserName } = useContext(AppContext);
+
+  const calcMeridian = (time) => {
+    const afterMeridianRegex = /^(0[0-9]|1[0-1])$/;
+    const hrs = time.substring(0, 2);
+
+    let meridian = afterMeridianRegex.exec(hrs);
+
+    meridian ? (meridian = "AM") : (meridian = "PM");
+
+    return meridian;
+  };
+
   function addSelectedSlot(index) {
     setSelectedSlots((prevSelectedSlots) => {
-      // check if the slot is already in the array. some tests if atleast one elem in arr pass test
       const isSelected = prevSelectedSlots.some(
         (slot) => slot._id === slots[index]._id
       );
-      // if slot is not selected, add it to the array
+
       if (!isSelected) {
         return [...prevSelectedSlots, slots[index]];
       }
-      // if slot is already selected, remove it from array
+
       return prevSelectedSlots.filter((slot) => slot._id !== slots[index]._id);
     });
   }
 
   function handleDateChange(event) {
     setSelectedDate(event.target.value);
+    // setUserName("New name");
   }
 
   useEffect(() => {
-    const path = window.location.pathname.substring(1); // removes the leading slash
+    const path = window.location.pathname.substring(1);
 
     axios
       .get(`http://localhost:3001/${path}`)
@@ -54,7 +69,7 @@ const Ground_page = () => {
       .catch((error) => {
         console.log(error);
 
-        if (error.message == "Request failed with status code 404") {
+        if (error.message === "Request failed with status code 404") {
           window.location.assign("/404");
         }
       });
@@ -62,16 +77,15 @@ const Ground_page = () => {
 
   return (
     <>
-      {<MUINavbar logo={logo} />}
-      {<MUILoggedNavbar logo={logo} />}
+      <MUINavbar logo={logo} />
+      <MUILoggedNavbar logo={logo} />
       <SlotsSidebar
         slots={selectedSlots}
         date={selectedDate}
         groundName={groundName}
       />
-      {/* ground info div */}
       <div className="grounds-info-div">
-        <Card sx={{ width: "100%", borderRadius: "20px" }}>
+        <Card sx={{ width: "97%", borderRadius: "20px" }}>
           <CardMedia
             component="img"
             height="400"
@@ -115,19 +129,29 @@ const Ground_page = () => {
           </CardContent>
         </Card>
       </div>
-      {/* ground's slots div */}
       <div className="slots-select-card">
-        <Card sx={{ width: "100%", borderRadius: "20px" }}>
+        <Card sx={{ width: "97%", borderRadius: "20px", marginRight: "32px" }}>
           <CardContent>
             <Typography variant="h5" component="div">
               Select Date
             </Typography>
+
             <input
               type="date"
               id="date"
               name="date"
               value={selectedDate}
               onChange={handleDateChange}
+              style={{
+                fontSize: "16px",
+                padding: "10px",
+                border: "1px solid black",
+                borderRadius: "4px",
+                width: "200px",
+                outline: "none",
+                appearance: "none",
+                backgroundColor: "#24DC89",
+              }}
             />
             <Typography variant="h5" component="div">
               Select your slots
@@ -148,7 +172,11 @@ const Ground_page = () => {
                 >
                   <span>{slot.dayOfWeek}</span>
                   <div style={{ display: "flex", alignItems: "center" }}>
-                    <span>{`${slot.startTime} - ${slot.endTime}`}</span>
+                    <span>{`${slot.startTime} ${calcMeridian(
+                      slot.startTime
+                    )} - ${slot.endTime} ${calcMeridian(
+                      slot.startTime
+                    )}`}</span>
                     <div className="divider"></div>
                     <span>{`Rs.${slot.rate}`}</span>
                   </div>
@@ -156,7 +184,6 @@ const Ground_page = () => {
               ))}
             </div>
           </CardContent>
-          {/* select date and time */}
           <Box className="slot-select-box"></Box>
         </Card>
       </div>
@@ -164,4 +191,4 @@ const Ground_page = () => {
   );
 };
 
-export default Ground_page;
+export default GroundPage;
