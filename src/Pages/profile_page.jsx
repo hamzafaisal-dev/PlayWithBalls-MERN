@@ -15,9 +15,9 @@ import { AppContext } from "../App";
 import axios from "axios";
 
 export default function ProfilePage() {
-  // const { userName } = useContext(AppContext);
+  const { userName, setUserName } = useContext(AppContext);
 
-  const [userData, setUserData] = useState(null);
+  const [userData, setUserData] = useState([]);
 
   useEffect(() => {
     const config = {
@@ -46,6 +46,8 @@ export default function ProfilePage() {
 
   const handleEditIconClick = () => {
     console.log(userData);
+    setUserName("BlingBlong");
+    console.log(userName);
   };
 
   return (

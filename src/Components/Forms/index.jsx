@@ -81,6 +81,8 @@ export const LoginForm = function LogInSide() {
 
       if (response.data.userRole === "admin") {
         window.location.assign("/admin");
+      } else if (response.data.userRole === "ground-in-charge") {
+        window.location.assign("/manager");
       } else {
         window.location.assign("/");
       }

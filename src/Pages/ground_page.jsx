@@ -37,7 +37,7 @@ const GroundPage = () => {
     return meridian;
   };
 
-  function addSelectedSlot(index) {
+  function addSelectedSlot(slot, index) {
     setSelectedSlots((prevSelectedSlots) => {
       const isSelected = prevSelectedSlots.some(
         (slot) => slot._id === slots[index]._id
@@ -160,7 +160,7 @@ const GroundPage = () => {
               {slots.map((slot, index) => (
                 <div
                   className="slots-div"
-                  onClick={() => addSelectedSlot(index)}
+                  onClick={() => addSelectedSlot(slot, index)}
                   key={slot._id}
                   style={{
                     backgroundColor: selectedSlots.some(

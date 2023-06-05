@@ -4,8 +4,11 @@ import { CityCard } from "../Components/Cards";
 import axios from "axios";
 import "../Pages/style.css";
 import logo from "../Components/Forms/logo-black.png";
+import bannerImage from "./soccer field background 1003.jpg";
+import { AppContext } from "../App";
 
 export default function Home_page() {
+  const { userName, setUserName } = useContext(AppContext);
   const [citiesData, setCitiesData] = useState([]);
   // const { userRole } = useContext(UserContext);
 
@@ -35,6 +38,19 @@ export default function Home_page() {
           marginTop: "150px",
         }}
       >
+        <div
+          style={{
+            position: "absolute",
+            marginTop: "-10px",
+            left: "0",
+            width: "100%",
+            height: "600px",
+            zIndex: "-1",
+            backgroundImage: `url(${bannerImage})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></div>
         <img
           src="https://cdn-icons-png.flaticon.com/512/1180/1180504.png?w=740&t=st=1680879590~exp=1680880190~hmac=cd170fbd1a52a64e8cbd7a9cfe8a139594a85203438e27e9637d7b7c939a2502"
           alt="ground art"
