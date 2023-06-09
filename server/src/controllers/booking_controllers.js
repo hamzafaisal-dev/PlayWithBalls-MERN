@@ -1,31 +1,29 @@
 import models from '../models/allModels.js'
-const { City, Area, Ground, Booking } = models;
+const { City, Area, Ground, Booking, User } = models;
 import mongoose from 'mongoose';
 
 // /cities/:cityID/areas/:areaID/grounds/:groundID/bookings
 export async function createBooking(req, res, next) {
     try {
 
-        // retrieve user ID from authenticated user session
-        const userID = new mongoose.Types.ObjectId(req.user.user._id);
+        // will retrieve user ID from authenticated user session
+        const userID = new mongoose.Types.ObjectId(req.user.id);
 
-        const cityID = req.params.cityID;
+        const user = await User.findById(userID);
+        console.log('User is');
+        console.log(userID);
 
-        // check if city ID request parameter is valid
-        const city = await City.findById(cityID);
-
-        if (!city) {
-            return res.status(404).json({ message: "City not found" });
+        if (!user) {
+            res.status(404).json({ message: "User not found" });
         }
+        // const cityID = req.params.cityID;
 
-        const areaID = req.params.areaID;
+        // // check if city ID request parameter is valid
+        // const city = await City.findById(cityID);
 
-        // check if area ID request parameter is valid
-        const area = await Area.findById(areaID);
-
-        if (!area) {
-            return res.status(404).json({ message: "Area not found" });
-        }
+        // if (!city) {
+        //     return res.status(404).json({ message: "City not found" });
+        // }
 
         const groundID = req.params.groundID;
 
@@ -36,39 +34,47 @@ export async function createBooking(req, res, next) {
             return res.status(404).json({ message: "Ground not found" });
         }
 
-        // store user selected slots in an array and total the amount
-        const selectedSlots = [];
-        let totalAmount = 0;
-
         // get current date
-        const date = new Date();
+        const todayDate = new Date().toLocaleDateString("en-US");
 
         // push selected slots to booking
-        for (let slot of ground.slots) {
-            if (slot.status === 'selected') {
-                totalAmount += slot.rate;
-                selectedSlots.push(slot);
+        // for (let slot of ground.slots) {
+        //     if (slot.status === 'selected') {
+        //         totalAmount += slot.rate;
+        //         selectedSlots.push(slot);
 
-                // update status of selected slots to pending. Slots cannot be selected by anyone now
-                slot.status = 'pending';
-                await ground.save();
-            }
+        //         // update status of selected slots to pending. Slots cannot be selected by anyone now
+        //         slot.status = 'pending';
+        //         await ground.save();
+        //     }
+        // }
+        console.log(req.body.subtotal);
+        for (let slot of req.body.slots) {
+            slot.status = 'pending';
         }
 
         // if no slots are selected, throw error
-        if (selectedSlots.length === 0) {
+        if (req.body.slots.length === 0) {
             return res.status(400).json({ message: 'Select a slot to book' });
         }
 
         // create new booking
         const newBooking = await Booking.create({
             "bookingStatus": "pending",
-            "bookingDate": date,
+            "bookingDate": todayDate,
             "user": userID,
             "ground": req.params.groundID,
-            "slots": selectedSlots,
-            "totalAmount": totalAmount
+            "slots": req.body.slots,
+            "totalAmount": req.body.subtotal
         });
+
+        await newBooking.save();
+
+        user.bookings.push(newBooking._id);
+        await user.save();
+
+        ground.bookings.push(newBooking._id);
+        await ground.save();
 
         res.status(200).json({ newBooking });
 
@@ -94,50 +100,74 @@ export async function createBooking(req, res, next) {
     }
 }
 
-// /cities/:cityID/areas/:areaID/grounds/:groundID/bookings/:bookingID
-export async function getBooking(req, res, next) {
+// // get a particular user's bookings
+// export async function getBookings(req, res, next) {
+//     try {
+
+//         const cityID = req.params.cityID;
+
+//         // check if city ID request parameter is valid
+//         const city = await City.findById(cityID);
+
+//         if (!city) {
+//             return res.status(404).json({ message: "City not found" });
+//         }
+
+//         const areaID = req.params.areaID;
+
+//         // check if area ID request parameter is valid
+//         const area = await Area.findById(areaID);
+
+//         if (!area) {
+//             return res.status(404).json({ message: "Area not found" });
+//         }
+
+//         const groundID = req.params.groundID;
+
+//         // check if ground ID request parameter is valid
+//         const ground = await Ground.findById(groundID);
+
+//         if (!ground) {
+//             return res.status(404).json({ message: "Ground not found" });
+//         }
+
+//         const bookingID = req.params.bookingID;
+
+//         // check if booking ID request parameter is valid
+//         const booking = await Booking.findById(bookingID);
+
+//         if (!booking) {
+//             return res.status(404).json({ message: "Booking not found" });
+//         }
+
+//         res.status(200).json({ booking });
+
+//     } catch (error) {
+//         res.status(500).json({ message: "Something went wrong" });
+//     }
+// }
+
+// get a particular user's bookings
+export async function getBookings(req, res, next) {
     try {
+        const userID = new mongoose.Types.ObjectId(req.user.id);
 
-        const cityID = req.params.cityID;
+        const user = await User.findById(userID).populate({
+            path: 'bookings',
+            populate: {
+                path: 'ground'
+            }
+        });
 
-        // check if city ID request parameter is valid
-        const city = await City.findById(cityID);
-
-        if (!city) {
-            return res.status(404).json({ message: "City not found" });
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
         }
 
-        const areaID = req.params.areaID;
-
-        // check if area ID request parameter is valid
-        const area = await Area.findById(areaID);
-
-        if (!area) {
-            return res.status(404).json({ message: "Area not found" });
-        }
-
-        const groundID = req.params.groundID;
-
-        // check if ground ID request parameter is valid
-        const ground = await Ground.findById(groundID);
-
-        if (!ground) {
-            return res.status(404).json({ message: "Ground not found" });
-        }
-
-        const bookingID = req.params.bookingID;
-
-        // check if booking ID request parameter is valid
-        const booking = await Booking.findById(bookingID);
-
-        if (!booking) {
-            return res.status(404).json({ message: "Booking not found" });
-        }
-
-        res.status(200).json({ booking });
-
+        const bookings = user.bookings;
+        res.status(200).json(bookings);
     } catch (error) {
-        res.status(500).json({ message: "Something went wrong" });
+        console.log(error);
+        res.status(500).json({ message: 'Something went wrong' });
     }
 }
 
@@ -145,45 +175,22 @@ export async function getBooking(req, res, next) {
 export async function getAllBookings(req, res, next) {
     try {
 
-        const cityID = req.params.cityID;
-
-        // check if city ID request parameter is valid
-        const city = await City.findById(cityID);
-
-        if (!city) {
-            return res.status(404).json({ message: "City not found" });
-        }
-
-        const areaID = req.params.areaID;
-
-        // check if area ID request parameter is valid
-        const area = await Area.findById(areaID);
-
-        if (!area) {
-            return res.status(404).json({ message: "Area not found" });
-        }
-
-        const groundID = req.params.groundID;
-
-        // check if ground ID request parameter is valid
-        const ground = await Ground.findById(groundID);
+        const ground = await Ground.findById(req.params.groundID).populate('bookings');
 
         if (!ground) {
-            return res.status(404).json({ message: "Ground not found" });
+            return res.status(404).json({ message: "Grount not found" });
         }
 
-        const bookingID = req.params.bookingID;
-
-        // check if ground ID request parameter is valid
-        const bookings = await Booking.find({});
-
-        if (bookings.length == 0) {
-            return res.status(404).json({ message: "Booking history is empty for this ground" });
+        if (ground.bookings.length == 0) {
+            return res.status(400).json({ message: "Booking history is empty for this ground" });
         }
 
-        res.status(200).json({ bookings });
+        const allBookings = ground.bookings;
+
+        res.status(200).json(allBookings);
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Something went wrong" });
     }
 }
@@ -192,41 +199,23 @@ export async function getAllBookings(req, res, next) {
 export async function deleteBooking(req, res, next) {
     try {
 
-        const cityID = req.params.cityID;
+        // const groundID = req.params.groundID;
 
-        // check if city ID request parameter is valid
-        const city = await City.findById(cityID);
+        // // check if ground ID request parameter is valid
+        // const ground = await Ground.findById(groundID);
 
-        if (!city) {
-            return res.status(404).json({ message: "City not found" });
-        }
+        // if (!ground) {
+        //     return res.status(404).json({ message: "Ground not found" });
+        // }
 
-        const areaID = req.params.areaID;
-
-        // check if area ID request parameter is valid
-        const area = await Area.findById(areaID);
-
-        if (!area) {
-            return res.status(404).json({ message: "Area not found" });
-        }
-
-        const groundID = req.params.groundID;
+        // const bookingID = req.params.bookingID;
 
         // check if ground ID request parameter is valid
-        const ground = await Ground.findById(groundID);
+        const deletedBooking = await Booking.deleteMany({});
 
-        if (!ground) {
-            return res.status(404).json({ message: "Ground not found" });
-        }
-
-        const bookingID = req.params.bookingID;
-
-        // check if ground ID request parameter is valid
-        const deletedBooking = await Booking.findByIdAndDelete(bookingID);
-
-        if (!deletedBooking) {
-            return res.status(404).json({ message: "Booking not found" });
-        }
+        // if (!deletedBooking) {
+        //     return res.status(404).json({ message: "Booking not found" });
+        // }
 
         res.status(200).json({ message: 'Booking deleted successfully', deletedBooking });
 
@@ -236,40 +225,22 @@ export async function deleteBooking(req, res, next) {
 }
 
 // /cities/:cityID/areas/:areaID/grounds/:groundID/bookings/:bookingID
-export async function approveBooking(req, res, next) {
+export async function updateBookingStatus(req, res, next) {
     try {
 
-        const cityID = req.params.cityID;
+        const bookingID = req.body.bookingID;
+        const bookingStatus = req.body.bookingStatus;
 
-        // check if city ID request parameter is valid
-        const city = await City.findById(cityID);
+        let booking = "";
 
-        if (!city) {
-            return res.status(404).json({ message: "City not found" });
+        if (bookingStatus === 'approved') {
+            booking = await Booking.findByIdAndUpdate(bookingID, { "bookingStatus": "confirmed" });
+            await booking.save();
         }
-
-        const areaID = req.params.areaID;
-
-        // check if area ID request parameter is valid
-        const area = await Area.findById(areaID);
-
-        if (!area) {
-            return res.status(404).json({ message: "Area not found" });
+        else if (bookingStatus === 'rejected') {
+            booking = await Booking.findByIdAndUpdate(bookingID, { "bookingStatus": "rejected" });
+            await booking.save();
         }
-
-        const groundID = req.params.groundID;
-
-        // check if ground ID request parameter is valid
-        const ground = await Ground.findById(groundID);
-
-        if (!ground) {
-            return res.status(404).json({ message: "Ground not found" });
-        }
-
-        const bookingID = req.params.bookingID;
-        q
-        // check if booking ID request parameter is valid
-        const booking = await Booking.findByIdAndUpdate(bookingID, { "status": "confirmed" });
 
         if (!booking) {
             return res.status(404).json({ message: "Booking not found" });
@@ -278,53 +249,54 @@ export async function approveBooking(req, res, next) {
         res.status(200).json({ booking });
 
     } catch (error) {
+        console.log(error);
         res.status(500).json({ message: "Something went wrong" });
     }
 }
 
-// /cities/:cityID/areas/:areaID/grounds/:groundID/bookings/:bookingID
-export async function rejectBooking(req, res, next) {
-    try {
+// // /cities/:cityID/areas/:areaID/grounds/:groundID/bookings/:bookingID
+// export async function rejectBooking(req, res, next) {
+//     try {
 
-        const cityID = req.params.cityID;
+//         const cityID = req.params.cityID;
 
-        // check if city ID request parameter is valid
-        const city = await City.findById(cityID);
+//         // check if city ID request parameter is valid
+//         const city = await City.findById(cityID);
 
-        if (!city) {
-            return res.status(404).json({ message: "City not found" });
-        }
+//         if (!city) {
+//             return res.status(404).json({ message: "City not found" });
+//         }
 
-        const areaID = req.params.areaID;
+//         const areaID = req.params.areaID;
 
-        // check if area ID request parameter is valid
-        const area = await Area.findById(areaID);
+//         // check if area ID request parameter is valid
+//         const area = await Area.findById(areaID);
 
-        if (!area) {
-            return res.status(404).json({ message: "Area not found" });
-        }
+//         if (!area) {
+//             return res.status(404).json({ message: "Area not found" });
+//         }
 
-        const groundID = req.params.groundID;
+//         const groundID = req.params.groundID;
 
-        // check if ground ID request parameter is valid
-        const ground = await Ground.findById(groundID);
+//         // check if ground ID request parameter is valid
+//         const ground = await Ground.findById(groundID);
 
-        if (!ground) {
-            return res.status(404).json({ message: "Ground not found" });
-        }
+//         if (!ground) {
+//             return res.status(404).json({ message: "Ground not found" });
+//         }
 
-        const bookingID = req.params.bookingID;
+//         const bookingID = req.params.bookingID;
 
-        // check if booking ID request parameter is valid
-        const booking = await Booking.findByIdAndUpdate(bookingID, { "status": "rejected" });
+//         // check if booking ID request parameter is valid
+//         const booking = await Booking.findByIdAndUpdate(bookingID, { "status": "rejected" });
 
-        if (!booking) {
-            return res.status(404).json({ message: "Booking not found" });
-        }
+//         if (!booking) {
+//             return res.status(404).json({ message: "Booking not found" });
+//         }
 
-        res.status(200).json({ booking });
+//         res.status(200).json({ booking });
 
-    } catch (error) {
-        res.status(500).json({ message: "Something went wrong" });
-    }
-}
+//     } catch (error) {
+//         res.status(500).json({ message: "Something went wrong" });
+//     }
+// }

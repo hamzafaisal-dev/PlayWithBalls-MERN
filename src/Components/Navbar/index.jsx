@@ -16,11 +16,14 @@ export const MUINavbar = ({ logo }) => {
       <AppBar
         position="fixed"
         sx={{
-          backgroundColor: "transparent",
+          backgroundColor: "#7fc98f",
+          background: "linear-gradient(to bottom right, #00b09b, #96c93d)",
           boxShadow: "none",
           paddingTop: "30px",
           paddingLeft: "30px",
           paddingRight: "30px",
+          paddingBottom: "20px",
+          zIndex: 6,
         }}
       >
         <Toolbar sx={{ display: "flex", justifyContent: "space-between" }}>
@@ -28,9 +31,9 @@ export const MUINavbar = ({ logo }) => {
             className="football-logo"
             src={logo}
             alt="Logo"
-            style={{ marginLeft: "60px" }}
+            style={{ marginLeft: "60px", marginBottom: "10px" }}
           />
-          <Stack direction="row" spacing={2}>
+          <Stack direction="row" spacing={2} sx={{ marginBottom: "10px" }}>
             <SignInButton></SignInButton>
             <SignUpButton></SignUpButton>
           </Stack>

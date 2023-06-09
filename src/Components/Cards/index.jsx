@@ -83,7 +83,8 @@ export const GroundCard = ({
         boxShadow: hovered ? "0px 3px 8px rgba(0, 0, 0, 0.3)" : "none",
         marginLeft: "10px",
         marginRight: "10px",
-        height: "450px",
+        height: "500px",
+        // width: "300px",
       }}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
@@ -94,15 +95,15 @@ export const GroundCard = ({
           display: "inline-block",
           borderTopLeftRadius: "12px",
           borderTopRightRadius: "12px",
-          overflow: "hidden", // set overflow to hide any image overflow
-          height: "60%", // set a fixed height for the image container
+          overflow: "hidden",
+          height: "60%",
         }}
       >
         <CardMedia
           component="img"
           height="100%"
-          width="100%" // set width to 100%
-          objectfit="cover" // make the image cover the container
+          width="100%"
+          objectfit="cover"
           image={imageLink}
           sx={{
             borderTopLeftRadius: "12px",

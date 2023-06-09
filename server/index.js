@@ -11,6 +11,7 @@ import { slotRouter } from './src/routes/slotRoutes.js'
 import { userRouter } from './src/routes/userRoutes.js'
 import { reviewRouter } from './src/routes/reviewRoutes.js'
 import { bookingRouter } from './src/routes/bookingRoutes.js'
+import { paymentRouter } from './src/routes/paymentRoutes.js'
 
 const app = express();
 // sets up the Express application to handle incoming data in JSON format
@@ -40,6 +41,9 @@ app.use('/', reviewRouter);
 
 // bookings router
 app.use('/', bookingRouter);
+
+// bookings router
+app.use('/', paymentRouter);
 
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.DB_CONNECTION_STRING)

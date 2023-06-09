@@ -13,6 +13,12 @@ const citySchema = mongoose.Schema(
         longitude: {
             type: String
         },
+        grounds: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'Ground'
+            }
+        ],
         areas: [
             {
                 type: mongoose.Schema.Types.ObjectId,
@@ -64,11 +70,10 @@ const groundSchema = mongoose.Schema(
             required: true,
             min: 6
         },
-        images: [
-            {
-                type: String,
-            }
-        ],
+        coverImage:
+        {
+            type: String,
+        },
         information: {
             type: String
         },
@@ -78,6 +83,11 @@ const groundSchema = mongoose.Schema(
         },
         slots: [
             {
+                dayOfWeek: {
+                    type: String,
+                    enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                    required: true
+                },
                 status: {
                     type: String,
                     enum: ['available', 'unavailable', 'selected', 'pending'],
@@ -86,12 +96,8 @@ const groundSchema = mongoose.Schema(
                 rate: {
                     type: Number,
                     required: true,
-                    min: 5
+                    min: 0
                 },
-                // date: {
-                //     type: Date,
-                //     required: true
-                // },
                 startTime: {
                     type: String,
                     required: true,
@@ -131,7 +137,11 @@ const groundSchema = mongoose.Schema(
                 type: mongoose.Schema.Types.ObjectId,
                 ref: 'Review'
             }
-        ]
+        ],
+        bookings: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Booking'
+        }]
     },
     {
         timestamps: true
@@ -164,7 +174,7 @@ const bookingSchema = mongoose.Schema(
     {
         bookingStatus: {
             type: String,
-            enum: ['pending', 'confirmed', 'rejected'],
+            enum: ['pending', 'approved', 'rejected'],
             required: true
         },
         bookingDate: {
@@ -177,10 +187,15 @@ const bookingSchema = mongoose.Schema(
         },
         ground: {
             type: mongoose.Schema.Types.ObjectId,
-            ref: 'Ground'
+            ref: 'Ground',
         },
         slots: [
             {
+                dayOfWeek: {
+                    type: String,
+                    enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'],
+                    required: true
+                },
                 status: {
                     type: String,
                     enum: ['available', 'unavailable', 'selected', 'pending'],
@@ -189,12 +204,8 @@ const bookingSchema = mongoose.Schema(
                 rate: {
                     type: Number,
                     required: true,
-                    min: 5
+                    min: 0
                 },
-                // date: {
-                //     type: Date,
-                //     required: true
-                // },
                 startTime: {
                     type: String,
                     required: true,
@@ -254,6 +265,20 @@ const paymentSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'Booking'
         },
+        creditCardNumber: {
+            type: String,
+            required: true,
+            match: /^\d{16}$/ // Validates 16-digit numeric string
+        },
+        cvv: {
+            type: String,
+            required: true,
+            match: /^\d{3}$/ // Validates 3-digit numeric string
+        },
+        expirationDate: {
+            type: String,
+            required: true
+        },
         paymentAmount: {
             type: Number,
             required: true
@@ -304,11 +329,21 @@ const userSchema = mongoose.Schema(
         profileImage: {
             type: String
         },
+        position: {
+            type: String,
+        },
         role: {
             type: String,
-            enum: ['player', 'captain', 'ground-in-charge', 'admin'],
+            enum: ['player', 'manager', 'admin'],
             required: true
-        }
+        },
+        bio: {
+            type: String
+        },
+        bookings: [{
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Booking'
+        }]
     },
     {
         timestamps: true
@@ -321,5 +356,6 @@ const Area = mongoose.model('Area', areaSchema);
 const Ground = mongoose.model('Ground', groundSchema);
 const Review = mongoose.model('Review', reviewSchema);
 const Booking = mongoose.model('Booking', bookingSchema);
+const Payment = mongoose.model('Payment', paymentSchema);
 
-export default { User, City, Area, Ground, Review, Booking };
+export default { User, City, Area, Ground, Review, Booking, Payment };

@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import { Route, Routes, BrowserRouter } from 'react-router-dom';
 import ProtectedRoutes from './ProtectedRoutes';
 import HomePage from './Pages/home_page.jsx';
@@ -19,18 +19,28 @@ import ManagerPage from './Pages/incharge_page.jsx'
 export const AppContext = createContext();
 
 function App() {
-  const [userName, setUserName] = useState("Default Name");
+  const [userRole, setUserRole] = useState("");
+
+  useEffect(() => {
+    const role = localStorage.getItem("role");
+
+    if (role) {
+      setUserRole(role);
+    }
+  })
 
   return (
     <BrowserRouter>
-      <AppContext.Provider value={{ userName, setUserName }}>
+      <AppContext.Provider value={{ userRole, setUserRole }}>
         <Routes>
           <Route element={<ProtectedRoutes />}>
             <Route path="/payment" exact element={<PaymentsPage />} />
             <Route path="/profile" exact element={<ProfilePage />} />
-            <Route path="/manager" exact element={<ManagerPage />} />
-            <Route path="/admin" exact element={<AdminPage />} />
+            <Route path="/admin" exact element={userRole === "admin" ? <AdminPage /> : <DefaultPage />} />
+            <Route path="/manager" exact element={userRole === "manager" ? <ManagerPage /> : <DefaultPage />} />
+            {/* <Route path="/admin" exact element={<AdminPage />} /> */}
           </Route>
+
           <Route path="/" exact element={<HomePage />} />
           <Route path="/login" exact element={<LoginPage />} />
           <Route path="/signup" exact element={<SignupPage />} />

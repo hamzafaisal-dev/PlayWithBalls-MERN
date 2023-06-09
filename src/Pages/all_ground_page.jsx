@@ -20,11 +20,22 @@ export default function Ground_page() {
 
     console.log(path);
 
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
     axios
-      .post(`http://localhost:3001/${path}`, {
-        area: filters.area,
-        type: filters.type,
-      })
+      .post(
+        `http://localhost:3001/${path}`,
+        {
+          area: filters.area,
+          type: filters.type,
+        },
+        config
+      )
       .then((response) => {
         console.log(response);
         if (response.data.length == 0) {
@@ -40,7 +51,10 @@ export default function Ground_page() {
       })
       .catch((error) => {
         if (error.response) {
-          alert(error.response.data.message);
+          if (error.response.data.message === "Invalid token") {
+            localStorage.removeItem("token");
+            window.location.assign("/login");
+          }
         } else if (error.request) {
           alert(error.request.data.message);
         } else {
@@ -110,7 +124,7 @@ export default function Ground_page() {
                 key={ground.groundName}
                 groundName={ground.groundName}
                 address={ground.address}
-                imageLink={ground.imageLink}
+                imageLink={ground.coverImage}
                 // reviews={ground.reviews.length}
                 type={ground.type}
               />

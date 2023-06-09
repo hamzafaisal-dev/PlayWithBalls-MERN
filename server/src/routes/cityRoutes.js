@@ -5,7 +5,7 @@ import { verifyAccessToken } from '../helpers/authHelpers.js';
 
 cityRouter.post('/cities', addCity);
 cityRouter.get('/cities/:id', getCity);
-cityRouter.get('/cities', getAllCities);
+cityRouter.get('/cities', verifyAccessToken, getAllCities);
 cityRouter.delete('/cities/:id', deleteCity);
 
 export { cityRouter }

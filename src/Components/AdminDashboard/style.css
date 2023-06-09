@@ -17,6 +17,7 @@
   display: flex;
   align-items: center;
   padding: 10px;
+  margin-top: 20px;
   margin-bottom: 30px;
 }
 
@@ -71,4 +72,21 @@
 .content p {
   font-size: 18px;
   line-height: 1.5;
+}
+
+.table-container {
+  margin-top: 20px;
+}
+
+.table-container table {
+  width: 100%;
+  border: 1px solid black;
+}
+
+.table-container th,
+.table-container td {
+  color: black;
+  text-align: left;
+  border: 1px solid black;
+  padding-left: 10px;
 }

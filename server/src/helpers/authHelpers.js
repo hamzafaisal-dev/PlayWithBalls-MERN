@@ -39,7 +39,7 @@ export async function verifyAccessToken(req, res, next) {
             if (err) {
                 return res.status(403).json({ message: 'Invalid token' });
             } else {
-                // Attach the authenticated user data to the request object
+                // attach the authenticated user data to the request object
                 req.user = data;
                 next();
             }

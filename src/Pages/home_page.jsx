@@ -4,7 +4,7 @@ import { CityCard } from "../Components/Cards";
 import axios from "axios";
 import "../Pages/style.css";
 import logo from "../Components/Forms/logo-black.png";
-import bannerImage from "./soccer field background 1003.jpg";
+import bannerImage from "./banner-image.jpg";
 import { AppContext } from "../App";
 
 export default function Home_page() {
@@ -14,13 +14,29 @@ export default function Home_page() {
 
   useEffect(() => {
     // console.log(userRole);
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
     axios
-      .get(`http://localhost:3001/cities`)
+      .get(`http://localhost:3001/cities`, config)
       .then((response) => {
         setCitiesData(response.data);
       })
       .catch((error) => {
-        console.log(error);
+        if (error.response) {
+          if (error.response.data.message === "Invalid token") {
+            localStorage.removeItem("token");
+            window.location.assign("/login");
+          }
+        } else if (error.request) {
+          alert(error.request.data.message);
+        } else {
+          alert("Errorrf", error.message);
+        }
       });
   }, []);
 
@@ -49,6 +65,18 @@ export default function Home_page() {
             backgroundImage: `url(${bannerImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            opacity: 2,
+          }}
+        ></div>
+        <div
+          style={{
+            position: "absolute",
+            marginTop: "-10px",
+            left: "0",
+            width: "100%",
+            height: "600px",
+            zIndex: "0",
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Dark overlay color
           }}
         ></div>
         <img
@@ -62,7 +90,7 @@ export default function Home_page() {
             height: "300px",
             objectFit: "cover",
             objectPosition: "center center",
-            zIndex: "-1",
+            zIndex: "-0.5",
             transform: "rotate(225deg)",
           }}
         />
@@ -77,7 +105,7 @@ export default function Home_page() {
             height: "25px",
             objectFit: "cover",
             objectPosition: "center center",
-            zIndex: "2",
+            zIndex: "1",
           }}
         />
         <img
@@ -86,41 +114,53 @@ export default function Home_page() {
           style={{
             position: "absolute",
             top: "120px",
-            right: "182px",
+            right: "153px",
             width: "100px",
             height: "100px",
             objectFit: "cover",
             objectPosition: "center center",
-            zIndex: "-1",
+            zIndex: "1",
           }}
         />
         <div
           className="header-container"
           style={{
             position: "relative",
-            zIndex: "1",
           }}
         >
           <h1>
-            <span>The quickest way to</span>
+            <span
+              style={{
+                color: "white",
+                zIndex: "2",
+              }}
+            >
+              The quickest way to
+            </span>
+
             <br />
-            <span>
-              find the <span style={{ color: "#ffa500" }}>perfect</span> ground
+            <span style={{ color: "white" }}>
+              find your <span style={{ color: "#ffa500" }}>perfect</span> ground
             </span>
           </h1>
         </div>
       </div>
-      <h2 className="select-city" style={{ marginBottom: "50px" }}>
+      <h1
+        className="select-city"
+        style={{
+          marginBottom: "50px",
+          marginTop: "100px",
+        }}
+      >
         Select your city
-      </h2>
+      </h1>
       <section id="cities-section">
-        {" "}
         <div
           className="container"
           style={{
-            display: "flex",
-            justifyContent: "center",
+            display: "inline",
             marginBottom: "50px",
+            marginLeft: "90px",
           }}
         >
           <div

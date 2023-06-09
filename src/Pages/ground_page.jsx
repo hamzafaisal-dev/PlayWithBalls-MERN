@@ -21,7 +21,7 @@ const GroundPage = () => {
   const [groundInfo, setGroundInfo] = useState("");
   const [slots, setSlots] = useState([]);
   const [selectedDate, setSelectedDate] = useState("");
-
+  const [groundImage, setGroundImage] = useState("");
   const [selectedSlots, setSelectedSlots] = useState([]);
 
   // const { setUserName } = useContext(AppContext);
@@ -59,15 +59,28 @@ const GroundPage = () => {
   useEffect(() => {
     const path = window.location.pathname.substring(1);
 
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
     axios
-      .get(`http://localhost:3001/${path}`)
+      .get(`http://localhost:3001/${path}`, config)
       .then((response) => {
         setGroundName(response.data.groundName);
         setSlots(response.data.slots);
         setGroundInfo(response.data.groundInfo);
+        setGroundImage(response.data.coverImage);
       })
       .catch((error) => {
         console.log(error);
+
+        if (error.response.data.message === "Invalid token") {
+          localStorage.removeItem("token");
+          window.location.assign("/login");
+        }
 
         if (error.message === "Request failed with status code 404") {
           window.location.assign("/404");
@@ -89,7 +102,10 @@ const GroundPage = () => {
           <CardMedia
             component="img"
             height="400"
-            image="https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            image={
+              groundImage ||
+              "https://images.pexels.com/photos/399187/pexels-photo-399187.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            }
             alt="Ground Image"
           />
           <CardContent>

@@ -7,13 +7,16 @@ import {
   Settings,
   ExitToApp,
 } from "@mui/icons-material";
-import { Divider, Grid, Paper } from "@mui/material";
+import { Divider, Grid, Paper, Avatar, TextField, Button } from "@mui/material";
+import { Add, Edit, Delete } from "@mui/icons-material";
 import "../AdminDashboard/style.css";
 import GroundsGrid from "../GroundsGrid";
 import CitiesGrid from "../CitiesGrid";
 import GroundsCRUD from "../GroundsCRUD";
 import { AddCity } from "../CitiesCRUD";
 import { AddGroundButton, AddCityButton } from "../Buttons";
+import { AddUserDialog, AddGroundDialog, ViewBookingsDialog } from "../Dialogs";
+import { UsersTable, GroundsTable, BookingsTable } from "../Tables/index.jsx";
 
 export default function AdminDashboard() {
   const [showGrounds, setShowGrounds] = useState(false);
@@ -22,10 +25,65 @@ export default function AdminDashboard() {
   const [showAddCityButton, setShowAddCityButton] = useState(false);
   const [showGroundsCRUD, setShowGroundsCRUD] = useState(false);
 
+  const [showUsersTable, setShowUsersTable] = useState(false);
+  const [showGroundsTable, setShowGroundsTable] = useState(false);
+
   const [showAddCity, setShowAddCity] = useState(false);
 
-  const [groundsData, setGroundsData] = useState([]);
   const [citiesData, setCitiesData] = useState([]);
+
+  const [groundID, setGroundID] = useState("");
+
+  const [adminData, setAdminData] = useState({});
+  const [usersData, setUsersData] = useState([]);
+  const [groundsData, setGroundsData] = useState([]);
+
+  const [modalOpen, setModalOpen] = useState(false);
+  const [addGroundModalOpen, setAddGroundModalOpen] = useState(false);
+  const [viewBookingsModalOpen, setViewBookingsModalOpen] = useState(false);
+
+  const [formData, setFormData] = useState({
+    dayOfWeek: "",
+    startTime: "",
+    endTime: "",
+    rate: "",
+    status: "",
+  });
+
+  const handleCloseModal = () => {
+    console.log(`formdata is`);
+    console.log(formData);
+    // setAddSlotModalOpen(false);
+  };
+
+  // get admin data
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
+    axios
+      .get(`http://localhost:3001/user`, config)
+      .then((response) => {
+        console.log(response.data);
+        setAdminData(response.data.user);
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.data.message === "Invalid token") {
+            localStorage.removeItem("token");
+            window.location.assign("/login");
+          }
+        } else if (error.request) {
+          alert(error.request.data.message);
+        } else {
+          alert("Errorrf", error.message);
+        }
+      });
+  }, []);
 
   // useEffect(() => {
   //   axios
@@ -38,21 +96,41 @@ export default function AdminDashboard() {
   //     });
   // }, []);
 
-  useEffect(() => {
-    axios
-      .get("http://localhost:3001/cities")
-      .then((response) => {
-        setCitiesData(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // get cities data
+  // useEffect(() => {
+  //   const config = {
+  //     headers: {
+  //       "Content-type": "application/json",
+  //       Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //     },
+  //   };
+
+  //   axios
+  //     .get("http://localhost:3001/cities", config)
+  //     .then((response) => {
+  //       setCitiesData(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  const handleUsersClick = () => {
+    setShowAddCityButton(true);
+    setShowCities(true);
+    setShowAddCity(false);
+
+    setShowGroundsTable(false);
+    setShowUsersTable(true);
+  };
 
   const handleGroundsClick = () => {
     setShowAddCityButton(true);
     setShowCities(true);
     setShowAddCity(false);
+
+    setShowGroundsTable(true);
+    setShowUsersTable(false);
   };
 
   const handleAddCityClick = () => {
@@ -65,6 +143,9 @@ export default function AdminDashboard() {
   const handleDashboardClick = () => {
     setShowGrounds(false);
     setAddGroundsButton(false);
+
+    setShowUsersTable(false);
+    setShowGroundsTable(false);
   };
 
   const handleAddGroundClick = () => {
@@ -73,49 +154,124 @@ export default function AdminDashboard() {
     setAddGroundsButton(false);
   };
 
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleOpenAddGroundModal = () => {
+    setAddGroundModalOpen(true);
+  };
+
+  const handleOpenViewBookingsModal = () => {
+    setViewBookingsModalOpen(true);
+  };
+
+  const handleLogOut = () => {
+    window.location.assign("/");
+    localStorage.removeItem("token");
+  };
+
+  // get all users data
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
+    axios
+      .get(`http://localhost:3001/users`, config)
+      .then((response) => {
+        console.log(response.data);
+        setUsersData(response.data);
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.data.message === "Invalid token") {
+            localStorage.removeItem("token");
+            window.location.assign("/login");
+          }
+        } else if (error.request) {
+          alert(error.request.data.message);
+        } else {
+          alert("Errorrf", error.message);
+        }
+      });
+  }, []);
+
+  useEffect(() => {
+    const config = {
+      headers: {
+        "Content-type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+    };
+
+    axios
+      .get(`http://localhost:3001/grounds`, config)
+      .then((response) => {
+        console.log(response.data);
+        setGroundsData(response.data);
+      })
+      .catch((error) => {
+        if (error.response) {
+          if (error.response.data.message === "Invalid token") {
+            localStorage.removeItem("token");
+            window.location.assign("/login");
+          }
+        } else if (error.request) {
+          alert(error.request.data.message);
+        } else {
+          alert("Errorrf", error.message);
+        }
+      });
+  }, []);
+
   return (
     <Grid container className="dashboard-container">
       {/* sidebar */}
       <Grid item xs={3}>
         <Paper
           className="sidebar"
-          style={{ backgroundColor: "#44a0de", height: "100%" }}
+          style={{ backgroundColor: "#24DC89", height: "100%" }}
         >
           <div className="admin-profile">
-            <img
-              src="https://i.eurosport.com/2023/01/12/3524154-71830248-2560-1440.jpg"
+            <Avatar
               alt="Admin Profile"
               className="profile-pic"
-            />
-            <span className="admin-name">Hamza Faisal</span>
+              src={adminData.profileImage}
+            ></Avatar>
+            <span className="admin-name">
+              {adminData.firstName + " " + adminData.lastName}
+            </span>
           </div>
           <ul>
             <li onClick={handleDashboardClick}>
               <Dashboard />
               <span className="sidebar-text">Dashboard</span>
             </li>
-            <li>
-              <Assignment />
-              <span className="sidebar-text">Bookings</span>
-            </li>
             <li onClick={handleGroundsClick}>
               <Settings />
               <span className="sidebar-text">Grounds</span>
             </li>
-            <li>
+            <li onClick={handleUsersClick}>
               <People />
-              <span className="sidebar-text">Customers</span>
+              <span className="sidebar-text">Users</span>
             </li>
             <Divider
               style={{ backgroundColor: "black", marginBottom: "30px" }}
             />
             <li>
-              <Settings />
-              <span className="sidebar-text">Settings</span>
-            </li>
-            <li>
               <ExitToApp />
-              <span className="sidebar-text">Log out</span>
+              <span
+                className="sidebar-text"
+                onClick={() => {
+                  handleLogOut();
+                }}
+              >
+                Log out
+              </span>
             </li>
           </ul>
         </Paper>
@@ -129,18 +285,46 @@ export default function AdminDashboard() {
             the dashboard.
           </p>
         </div>
-        <Grid item xs={12} md={4} sx={{ textAlign: "right" }}>
-          {showAddGroundsButton && (
-            <AddGroundButton handleAddGroundClick={handleAddGroundClick} />
-          )}
-          {showAddCityButton && (
-            <AddCityButton handleAddCityClick={handleAddCityClick} />
-          )}
-        </Grid>
+        {/* users table */}
+        {showUsersTable && (
+          <Grid item xs={12} md={4} sx={{ textAlign: "right" }}>
+            <AddUserDialog
+              modalOpen={modalOpen}
+              setModalOpen={setModalOpen}
+            ></AddUserDialog>
+            <UsersTable
+              usersData={usersData}
+              handleOpenModal={handleOpenModal}
+            ></UsersTable>
+          </Grid>
+        )}
+        {/* grounds table */}
+        {showGroundsTable && (
+          <Grid item xs={12} md={4} sx={{ textAlign: "right" }}>
+            <AddGroundDialog
+              addGroundModalOpen={addGroundModalOpen}
+              setAddGroundModalOpen={setAddGroundModalOpen}
+            ></AddGroundDialog>
+            {/* <AddSlotDialog
+              addSlotModalOpen={addSlotModalOpen}
+              setAddSlotModalOpen={setAddSlotModalOpen}
+            ></AddSlotDialog> */}
+            <ViewBookingsDialog
+              viewBookingsModalOpen={viewBookingsModalOpen}
+              setViewBookingsModalOpen={setViewBookingsModalOpen}
+              setGroundID={setGroundID}
+            ></ViewBookingsDialog>
+            <GroundsTable
+              groundsData={groundsData}
+              handleOpenAddGroundModal={handleOpenAddGroundModal}
+              setViewBookingsModalOpen={setViewBookingsModalOpen}
+            ></GroundsTable>
+          </Grid>
+        )}
         {/* {showGrounds && <GroundsGrid grounds={groundsData} />} */}
-        {showGroundsCRUD && <GroundsCRUD />}
-        {showAddCity && <AddCity />}
-        {showCities && <CitiesGrid cities={citiesData} />}
+        {/* {showGroundsCRUD && <GroundsCRUD />} */}
+        {/* {showAddCity && <AddCity />}
+        {showCities && <CitiesGrid cities={citiesData} />} */}
       </Grid>
     </Grid>
   );

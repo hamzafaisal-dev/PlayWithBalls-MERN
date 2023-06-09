@@ -81,10 +81,13 @@ export const LoginForm = function LogInSide() {
 
       if (response.data.userRole === "admin") {
         window.location.assign("/admin");
-      } else if (response.data.userRole === "ground-in-charge") {
+        localStorage.setItem("role", "admin");
+      } else if (response.data.userRole === "manager") {
         window.location.assign("/manager");
+        localStorage.setItem("role", "manager");
       } else {
         window.location.assign("/");
+        localStorage.setItem("role", "player");
       }
     } catch (error) {
       if (error.response) {
@@ -236,8 +239,20 @@ export const SignUpForm = function SignInSide() {
       const url = "http://localhost:3001/users/signup";
       const response = await axios.post(url, data, config);
 
-      localStorage.setItem("token", response.data.accessToken);
-      window.location.assign("/");
+      if (response) {
+        localStorage.setItem("token", response.data.accessToken);
+
+        if (response.data.userRole === "admin") {
+          window.location.assign("/admin");
+          localStorage.setItem("role", "admin");
+        } else if (response.data.userRole === "manager") {
+          window.location.assign("/manager");
+          localStorage.setItem("role", "manager");
+        } else {
+          window.location.assign("/");
+          localStorage.setItem("role", "player");
+        }
+      }
     } catch (error) {
       console.log(error);
       if (error.response) {
@@ -371,9 +386,7 @@ export const SignUpForm = function SignInSide() {
                   required
                 >
                   <MenuItem value={"player"}>Player</MenuItem>
-                  <MenuItem value={"ground-in-charge"}>
-                    Ground Incharge
-                  </MenuItem>
+                  <MenuItem value={"manager"}>Ground Incharge</MenuItem>
                   <MenuItem value={"admin"}>Admin</MenuItem>
                 </Select>
               </FormControl>
@@ -439,126 +452,5 @@ export const SignUpForm = function SignInSide() {
         </Grid>
       </Grid>
     </ThemeProvider>
-  );
-};
-
-export const AboutForm = () => {
-  const [profilePicture, setProfilePicture] = useState("");
-  const [bio, setBio] = useState("");
-  const [position, setPosition] = useState("");
-
-  const handleProfilePictureChange = (e) => {
-    try {
-      const allowedExtensions = ["jpeg", "jpg", "png"];
-      const file = e.target.files[0];
-      const extension = file.name.split(".").pop();
-
-      if (allowedExtensions.includes(extension)) {
-        const reader = new FileReader();
-        reader.readAsDataURL(file);
-        reader.onload = () => {
-          setProfilePicture(reader.result);
-        };
-      } else {
-        alert("Invalid file type. Only jpeg, jpg, and png are allowed.");
-      }
-    } catch (error) {
-      console.log("Invalid image format");
-    }
-  };
-
-  const handleBioChange = (event) => {
-    setBio(event.target.value);
-  };
-
-  const handlePositionChange = (event) => {
-    setPosition(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    console.log({
-      profilePicture,
-      bio,
-      position,
-    });
-  };
-
-  return (
-    <Grid item xs={12} sm={8} md={5} elevation={6}>
-      <Box
-        sx={{
-          my: 8,
-          mx: 4,
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Typography className="need-more-info" component="h1" variant="h5">
-          We need more information, ser!
-        </Typography>
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 1 }}>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <Avatar
-              alt="Profile Picture"
-              src={profilePicture}
-              sx={{ width: 150, height: 150, mb: 2 }}
-            />
-            <label htmlFor="profilePicture">
-              <Button variant="contained" component="span" sx={{ mt: 1 }}>
-                Upload Profile Picture
-              </Button>
-            </label>
-          </Box>
-          <Input
-            type="file"
-            id="profilePicture"
-            name="profilePicture"
-            autoFocus
-            onChange={handleProfilePictureChange}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            placeholder="Tell us a bit about yourself"
-            id="bio"
-            label="Bio"
-            name="bio"
-            autoComplete="off"
-            multiline
-            rows={4}
-            onChange={handleBioChange}
-            value={bio}
-          />
-          <TextField
-            margin="normal"
-            required
-            fullWidth
-            placeholder="Which position do you play at?"
-            id="position"
-            label="Soccer Position"
-            name="position"
-            autoComplete="off"
-            onChange={handlePositionChange}
-            value={position}
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Save
-          </Button>
-        </Box>
-      </Box>
-    </Grid>
   );
 };
