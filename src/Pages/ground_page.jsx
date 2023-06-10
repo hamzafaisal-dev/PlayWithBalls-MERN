@@ -17,6 +17,7 @@ import "../Pages/ground_page_style.css";
 import Reviews from "../Components/Reviews";
 
 const GroundPage = () => {
+  const [reviews, setReviews] = useState([]);
   const [groundName, setGroundName] = useState("");
   const [groundInfo, setGroundInfo] = useState("");
   const [slots, setSlots] = useState([]);
@@ -69,6 +70,7 @@ const GroundPage = () => {
     axios
       .get(`http://localhost:3001/${path}`, config)
       .then((response) => {
+        setReviews(response.data.reviews);
         setGroundName(response.data.groundName);
         setSlots(response.data.slots);
         setGroundInfo(response.data.groundInfo);
@@ -238,7 +240,7 @@ const GroundPage = () => {
       <div className="slots-select-card">
         <Card sx={{ width: "97%", borderRadius: "20px", marginRight: "32px" }}>
           <CardContent>
-            <Reviews />
+            <Reviews reviews={reviews} />
           </CardContent>
           <Box className="slot-select-box"></Box>
         </Card>
