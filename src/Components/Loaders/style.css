@@ -7,11 +7,13 @@
 
 .loader {
   border-radius: 50%;
-  width: 2rem;
-  height: 2rem;
+  width: 10rem;
+  height: 10rem;
   border: 3px solid rgba(0, 0, 0, 0.1);
   border-top-color: #222;
   animation: loader-spin 1s ease-in-out infinite;
+  margin-top: 320px;
+  margin-left: 290px;
 }
 
 @keyframes loader-spin {

@@ -48,6 +48,19 @@
   font-weight: 300;
 }
 
+.sidebar-search-input {
+  padding: 0.5rem;
+  border-radius: 5px;
+  background-color: white;
+  color: #18204a;
+  width: 100%;
+  margin-top: 0.5rem;
+  margin-bottom: 2rem;
+  border: none;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
 .sidebar-radio-group {
   display: flex;
   flex-direction: column;

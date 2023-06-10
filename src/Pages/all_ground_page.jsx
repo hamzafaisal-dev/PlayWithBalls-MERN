@@ -7,13 +7,14 @@ import logo from "../Components/Forms/logo-white.png";
 import axios from "axios";
 
 import { GroundCard } from "../Components/Cards";
-import Loader from "../Components/Loaders";
+import Loader from "../Components/Loaders/index.jsx";
 
 export default function Ground_page() {
   const [groundsData, setGroundsData] = useState([]);
   const [filters, setFilters] = useState({ area: undefined, type: undefined });
   const [showGrounds, setShowGrounds] = useState(true);
   const [noGrounds, setNoGrounds] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
 
   useEffect(() => {
     const path = window.location.pathname.substring(1); // removes the leading slash
@@ -27,6 +28,8 @@ export default function Ground_page() {
       },
     };
 
+    setShowLoader(true);
+
     axios
       .post(
         `http://localhost:3001/${path}`,
@@ -37,6 +40,7 @@ export default function Ground_page() {
         config
       )
       .then((response) => {
+        setShowLoader(false);
         console.log(response);
         if (response.data.length == 0) {
           setShowGrounds(false);
@@ -44,8 +48,6 @@ export default function Ground_page() {
         } else {
           setNoGrounds(false);
           setShowGrounds(true);
-          // console.log(filters);
-          // console.log(response.data);
           setGroundsData(response.data);
         }
       })
@@ -67,7 +69,7 @@ export default function Ground_page() {
     <>
       {<MUINavbar logo={logo} />}
       {<MUILoggedNavbar logo={logo} />}
-      {/* <Loader /> */}
+      {showLoader && <Loader />}
       {noGrounds && (
         <div
           style={{
@@ -124,7 +126,11 @@ export default function Ground_page() {
                 key={ground.groundName}
                 groundName={ground.groundName}
                 address={ground.address}
-                imageLink={ground.coverImage}
+                imageLink={
+                  ground.coverImage
+                    ? ground.coverImage
+                    : "https://www.legrand.co.uk/modules/custom/legrand_ecat/assets/img/no-image.png"
+                }
                 // reviews={ground.reviews.length}
                 type={ground.type}
               />

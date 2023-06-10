@@ -167,6 +167,9 @@ export const UsersTable = ({ usersData, handleOpenModal }) => {
                               borderRadius: "5px",
                             },
                           }}
+                          onClick={() => {
+                            handleOpenModal();
+                          }}
                         />
                         <Delete
                           sx={{

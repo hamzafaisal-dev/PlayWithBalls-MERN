@@ -14,7 +14,7 @@ import {
 import { Info, Schedule, LocationOn } from "@mui/icons-material";
 import axios from "axios";
 import "../Pages/ground_page_style.css";
-import { AppContext } from "../App";
+import Reviews from "../Components/Reviews";
 
 const GroundPage = () => {
   const [groundName, setGroundName] = useState("");
@@ -145,60 +145,100 @@ const GroundPage = () => {
           </CardContent>
         </Card>
       </div>
+      {/* // slots select */}
       <div className="slots-select-card">
         <Card sx={{ width: "97%", borderRadius: "20px", marginRight: "32px" }}>
           <CardContent>
-            <Typography variant="h5" component="div">
-              Select Date
-            </Typography>
-
-            <input
-              type="date"
-              id="date"
-              name="date"
-              value={selectedDate}
-              onChange={handleDateChange}
+            <div
               style={{
-                fontSize: "16px",
-                padding: "10px",
-                border: "1px solid black",
-                borderRadius: "4px",
-                width: "200px",
-                outline: "none",
-                appearance: "none",
-                backgroundColor: "#24DC89",
+                display: "flex",
+                flexDirection: "row",
+                marginLeft: "15px",
+                marginBottom: "40px",
               }}
-            />
-            <Typography variant="h5" component="div">
-              Select your slots
-            </Typography>
-            <div>
-              {slots.map((slot, index) => (
-                <div
-                  className="slots-div"
-                  onClick={() => addSelectedSlot(slot, index)}
-                  key={slot._id}
-                  style={{
-                    backgroundColor: selectedSlots.some(
-                      (selected) => selected._id === slot._id
-                    )
-                      ? "#00ffef"
-                      : "#00ff6a",
-                  }}
-                >
-                  <span>{slot.dayOfWeek}</span>
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <span>{`${slot.startTime} ${calcMeridian(
-                      slot.startTime
-                    )} - ${slot.endTime} ${calcMeridian(
-                      slot.startTime
-                    )}`}</span>
-                    <div className="divider"></div>
-                    <span>{`Rs.${slot.rate}`}</span>
-                  </div>
-                </div>
-              ))}
+            >
+              {" "}
+              <Typography
+                variant="h5"
+                component="div"
+                style={{ marginTop: "10px" }}
+              >
+                Select Date
+              </Typography>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                value={selectedDate}
+                onChange={handleDateChange}
+                style={{
+                  border: "2px solid #24DC89",
+                  background: "none",
+                  marginLeft: "20px",
+                  padding: "15px 45px",
+                  width: "220px",
+                  outline: "none",
+                  color: "black",
+                  borderRadius: "25px",
+                  textAlign: "center",
+                }}
+              />
             </div>
+
+            <div>
+              <Typography
+                variant="h5"
+                component="div"
+                style={{ marginLeft: "15px" }}
+              >
+                Select your slot(s)
+              </Typography>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+
+                  marginTop: "15px",
+                }}
+                id="all-slots"
+              >
+                {slots.map((slot, index) => (
+                  <div
+                    className="slots-div"
+                    onClick={() => addSelectedSlot(slot, index)}
+                    key={slot._id}
+                    style={{
+                      backgroundColor: selectedSlots.some(
+                        (selected) => selected._id === slot._id
+                      )
+                        ? "#00ffef"
+                        : "#24DC89",
+                    }}
+                  >
+                    <span>{slot.dayOfWeek}</span>
+                    <div style={{ display: "flex", alignItems: "center" }}>
+                      <span>{`${slot.startTime} ${calcMeridian(
+                        slot.startTime
+                      )} - ${slot.endTime} ${calcMeridian(
+                        slot.startTime
+                      )}`}</span>
+                      <div className="divider"></div>
+                      <span>{`Rs.${slot.rate}`}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </CardContent>
+          <Box className="slot-select-box"></Box>
+        </Card>
+      </div>
+      {/* // reviews */}
+      <div className="slots-select-card">
+        <Card sx={{ width: "97%", borderRadius: "20px", marginRight: "32px" }}>
+          <CardContent>
+            <Reviews />
           </CardContent>
           <Box className="slot-select-box"></Box>
         </Card>

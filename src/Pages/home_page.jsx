@@ -6,14 +6,12 @@ import "../Pages/style.css";
 import logo from "../Components/Forms/logo-black.png";
 import bannerImage from "./banner-image.jpg";
 import { AppContext } from "../App";
+import Footer from "../Components/Footer";
 
 export default function Home_page() {
-  const { userName, setUserName } = useContext(AppContext);
   const [citiesData, setCitiesData] = useState([]);
-  // const { userRole } = useContext(UserContext);
 
   useEffect(() => {
-    // console.log(userRole);
     const config = {
       headers: {
         "Content-type": "application/json",
@@ -150,10 +148,12 @@ export default function Home_page() {
         style={{
           marginBottom: "50px",
           marginTop: "100px",
+          marginLeft: "-820px",
         }}
       >
         Select your city
       </h1>
+
       <section id="cities-section">
         <div
           className="container"
@@ -173,6 +173,11 @@ export default function Home_page() {
               width: "100%",
               maxWidth: "1200px",
               margin: "0 auto",
+              marginLeft: "190px",
+
+              paddingTop: "10px",
+              paddingBottom: "10px",
+              marginTop: "-40px",
             }}
           >
             {citiesData.map((city) => (
@@ -181,7 +186,7 @@ export default function Home_page() {
                 onClick={() => {
                   window.location.assign(`/cities/${city._id}/all-grounds`);
                 }}
-                style={{ cursor: "pointer" }}
+                style={{ cursor: "pointer", marginLeft: "20px" }}
               >
                 <CityCard
                   key={city.cityName}
@@ -190,15 +195,11 @@ export default function Home_page() {
                   grounds={city.grounds.length}
                 />
               </div>
-              // <CityCard
-              //   key={city.cityName}
-              //   city={city.cityName}
-              //   imageLink={`https://source.unsplash.com/random?${city.cityName.toLowerCase()}`}
-              // />
             ))}
           </div>
         </div>
       </section>
+      <Footer />
     </>
   );
 }

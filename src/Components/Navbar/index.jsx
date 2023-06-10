@@ -68,7 +68,7 @@ export const MUILoggedNavbar = ({ logo }) => {
 
   const handleLogoutClick = () => {
     localStorage.removeItem("token");
-    window.location.assign("/");
+    window.location.assign("/login");
   };
 
   const handleProfileClick = () => {

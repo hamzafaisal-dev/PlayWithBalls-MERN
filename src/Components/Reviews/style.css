@@ -1,0 +1,34 @@
+.reviews {
+  margin-top: 20px;
+}
+
+.review {
+  background-color: #f8f8f8;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.reviewer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.reviewer-name {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.review-rating {
+  color: #fbbc05;
+  font-weight: 1000;
+  margin-left: auto;
+  padding: 5px 10px;
+  background-color: white;
+  border-radius: 14px;
+}
+
+.review-content {
+  color: #555555;
+}

@@ -292,7 +292,7 @@ export const AddUserDialog = ({ modalOpen, setModalOpen }) => {
 
   return (
     <Dialog open={modalOpen} onClose={handleCloseModal}>
-      <DialogTitle>Add User</DialogTitle>
+      <DialogTitle>Users</DialogTitle>
       <DialogContent>
         <form onSubmit={handleFormSubmit}>
           <TextField

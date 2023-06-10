@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import "./slots-sidebar.css";
 import { FilterList } from "@mui/icons-material";
+import SearchIcon from "@mui/icons-material/Search";
 import { SlotsInfo } from "../Slots";
 import { useNavigate } from "react-router-dom";
 
@@ -33,7 +34,15 @@ export const GroundsSidebar = ({ onFilter }) => {
     <div className="grounds-sidebar">
       <h2 className="sidebar-heading"></h2>
       <div className="sidebar-section">
-        <FilterList fontSize="small" />
+        <h3 className="sidebar-subheading">
+          <SearchIcon fontSize="small" style={{ marginRight: "5px" }} />
+          Search by name
+        </h3>
+        <input
+          type="text"
+          placeholder="Search..."
+          className="sidebar-search-input"
+        />
         <h3 className="sidebar-subheading">
           <FilterList fontSize="small" style={{ marginRight: "5px" }} />
           Filter by area
