@@ -1,70 +1,15 @@
-# Getting Started with Create React App
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/2a839d73-c366-447d-8f50-12fda8fd9bd1)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/f9c98177-8d89-4b7e-8cf9-0a8d540dfd18)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/b68175d4-faba-4a8f-9a3b-afc1d78c3dd8)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/a4e63a69-3da9-4558-a101-00e816f1f51f)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/1e42fa06-a83e-460d-a590-402295b79598)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/6d5ad1b5-11f9-49af-9c3a-2ea7859cc957)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/85d9243c-9549-40f4-b4b6-11da3e2d8a85)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/9672bf29-f734-4023-af25-b825717f0ebc)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/b34a9e55-7f8c-4ebc-bcbd-63321b35b592)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/f544ddfa-6ed9-4897-b159-8ad1bc205496)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/cceebd97-f6f0-405a-b508-26f0af222f71)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/288c1a35-bfd0-47f9-b69a-bbcb78443270)
+![image](https://github.com/hamzafaisal-dev/PlayWithBalls-MERN/assets/112701587/08e76dc0-68e4-44ac-b161-4bbf4d297533)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
-
-In the project directory, you can run:
-
-### `npm start`
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
